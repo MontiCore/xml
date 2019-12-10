@@ -18,14 +18,59 @@
  */
 
 
-grammar XMLextends de.monticore.literals.MCCommonLiterals {
+grammar XML extends de.monticore.literals.MCCommonLiterals {
 
   /** The starting nonterminal. */
   start XMLDocument;
-
+  
+  /** An ASTXMLValue represents an arbitrary property value. */
+  interface XMLValue;
+  
   /** An ASTXMLDocument represents an input file in XML format.
     @attribute name The name of the XML document.
-    @attribute values The top level values contained in the JSON document.
+    @attribute values The top level values contained in the XML document.
   */
-  XMLDocument = Name;
+  XMLDocument = node:XNode*;
+  
+  XNode = "<" name:Name Attribute* ( "/>" | ">"
+    (node:XNode+ | value:XMLValue+)
+  "</" endKey:Name ">");
+  
+  /** An ASTXMLAttribute represents a key-value pair.
+    @key value The key of the attribute.
+    @value value The actual value of the attribute.
+  */
+  Attribute = key:Name "=" value:XMLValue;
+  
+  /** An ASTXMLBoolean represents a boolean property value.
+    @attribute value The actual value.
+  */
+  XMLBoolean implements XMLValue = value:BooleanLiteral;
+
+  /** An ASTXMLString represents a String property value.
+    @attribute value The actual value.
+  */
+  XMLString implements XMLValue = value:String;
+  
+  /** An ASTXMLNames represents a concatenation of multiple names.
+    @attribute value The actual value.
+  */
+  XMLNames implements XMLValue = value:Name+;
+
+  /** An ASTXMLNumber represents a number property value.
+    @attribute value The actual value (as signed integer or double).
+  */
+  XMLNumber implements XMLValue = value:SignedNumericLiteral;
+
+  /** An ASTXMLArray represents an array of multiple property values.
+    @attribute values The values in the array.
+  */
+  XMLArray implements XMLValue = "[" value:(XMLValue || ",")* "]";
+
+  /** An ASTXMLNull represents an empty property value.
+    @attribute value The actual "null" value.
+  */
+  XMLNull implements XMLValue = value:NullLiteral;
+  
+  
 }
