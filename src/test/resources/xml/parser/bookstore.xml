@@ -1,0 +1,28 @@
+<bookstore>
+  <book category="My Book">
+    <title lang="ger">Everyday Things</title>
+    <year>2125</year>
+    <price>3022.00</price>
+    <author>Giada De Laurentiis</author>
+  </book>
+  <book category="web">
+    <title lang="en">LOTR</title>
+    <author>none</author>
+    <year>20305</year>
+    <price>23.99</price>
+  </book>
+  <book category="child">
+    <title lang="en">A defintion</title>
+    <author>MC MC</author>
+    <author>Foo</author>
+    <year>2113</year>
+    <author>Bar</author>
+    <author>Baz</author>
+    <price>99</price>
+  </book>
+  <book category="crme" cover="nice">
+    <title lang="en">XML</title>
+    <author>Foo Bar</author>
+    <price>6</price>
+  </book>
+</bookstore>
