@@ -1,4 +1,7 @@
-package xml.parser;
+/*
+ * Copyright (c) 2017, MontiCore. All rights reserved. http://www.se-rwth.de/
+ */
+package de.monticore.lang.xml.parser;
 
 import static org.junit.Assert.*;
 
@@ -10,8 +13,8 @@ import java.util.Optional;
 import org.antlr.v4.runtime.RecognitionException;
 import org.junit.Test;
 
-import xml._ast.ASTXMLDocument;
-import xml._parser.XMLParser;
+import de.monticore.lang.xml._ast.ASTXMLDocument;
+import de.monticore.lang.xml._parser.XMLParser;
 
 public class XMLParserTest {
   

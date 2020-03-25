@@ -1,5 +1,5 @@
 /* (c) https://github.com/MontiCore/monticore */
-
+package de.monticore.lang;
 
 grammar XML extends de.monticore.literals.MCCommonLiterals {
 
