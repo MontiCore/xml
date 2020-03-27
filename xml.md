@@ -1,3 +1,4 @@
+<!-- (c) https://github.com/MontiCore/monticore -->
 # XML
 The MontiCore language for parsing XML artifacts contains the grammar:
 - **XML**: basic xml language with symbol table definition 

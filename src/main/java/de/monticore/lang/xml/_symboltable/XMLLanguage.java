@@ -1,6 +1,4 @@
-/*
- * Copyright (c) 2017, MontiCore. All rights reserved. http://www.se-rwth.de/
- */
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.xml._symboltable;
 
 public class XMLLanguage extends XMLLanguageTOP {
