@@ -1,20 +1,61 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
 # XML
-The MontiCore language for parsing XML artifacts contains the grammar:
-- **XML**: basic xml language with symbol table definition 
+* The MontiCore language XML contains the grammar 
+  and symbol management infrastructure for parsing and processing 
+  XML artifacts
 
-The main pupose of this language is parsing general artifacts in XML format
-that adhere to the common standard.
+```xml
+<Calendar>
+  <Appointment name="meeting">
+    <Date>24.04.2020</Date>
+    <Time>14:00</Time>
+    <Location>zoom</Location>
+  </Appointment>
+  <Appointment name="lunch">
+    <Date>24.04.2020</Date>
+    <Time>11:30</Time>
+    <Location>cafeteria</Location>
+  </Appointment>
+</Calendar>
+```
+* The main purpose of this language is parsing general artifacts in XML format
+  that adhere to the common standard.
+* The XML grammar enables parsing arbitrary XML artifacts for further 
+  processing.
+* Actually the grammar represents a slight superset to the official XML 
+  standard. It is intended for parsing XML-compliant artifacts. Further 
+  well-formedness checks are not included, because we assume to parse correctly 
+  produced XML documents only.
+* Please note that XML (like JSON or ASCII) is just a carrier language.
+  The conrete XML dialect and the question, how to recreate the
+  real objects / data structures, etc. behind the XML structure is beyond this 
+  grammar, but can be applied to the AST defined here.
 
-The grammar file is [`XML.mc4`][XMLGrammar].
+* Main grammar [`de.monticore.lang.XML.mc4`](src/main/grammars/de/monticore/lang/XML.mc4).
 
-## Handwritten Extensions
-### Symboltable
-- The [`de.monticore.lang.xml._symboltable.XMLLanguage`][XMLLanguage]
- defines the language name and its file ending. Additionally, it sets the 
- default model loader.
+## Symboltable
+* The XML artifacts provide symbols of different, yet to be explored kinds. 
+* Symbol management:
+  * XML artifacts provide a hierarchy of scopes along the objects they define.
+  * Each *"attribute name"* (i.e., each property key) acts as a symbol.
+  * Symbols are by definition *externally visible* and *exported*. 
+    All of them, even deeply nested ones!
 
-  
+### Symbol kinds used by XML (importable):
+* None, because XML does not have mechanisms to refer to external symbols.
 
-[XMLGrammar]: https://git.rwth-aachen.de/monticore/languages/xml/-/blob/master/src/main/grammars/de/monticore/lang/XML.mc4
-[XMLLanguage]: https://git.rwth-aachen.de/monticore/languages/xml/-/blob/master/src/main/java/de/monticore/lang/xml/_symboltable/XMLLanguage.java
+### Symbol kinds defined by XML:
+* Symbol kinds are currently explored.
+
+### Symbols exported by XML:
+* XML documents generally do NOT export any symbols to external artifacts.
+    Thus there is no symbol-table to be stored 
+* XML Symbols are available only when the model is loaded.
+
+## Functionality: CoCos
+* none provided; it is assumed that the XML model was produced correctly.
+
+## Further Information
+
+* [XML grammar](src/main/grammars/de/monticore/lang/XML.mc4)  
+* [MontiCore documentation](http://www.monticore.de/)
