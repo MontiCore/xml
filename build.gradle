@@ -1,0 +1,172 @@
+// (c) https://github.com/MontiCore/monticore
+
+/* ============================================================ */
+/* ========================= Plugins ========================== */
+/* ============================================================ */
+
+plugins {
+    id "java"
+    id "monticore" version "6.3.0-SNAPSHOT"
+    id "maven-publish"
+    // id "de.set.ecj" version "1.4.1" // Eclipse compiler as it"s much faster than javac
+    id "org.unbroken-dome.test-sets" version "3.0.1"
+}
+
+/* ============================================================ */
+/* ========================= Project ========================== */
+/* ============================================================ */
+
+group = "de.monticore.lang"
+version = "6.3.0-SNAPSHOT"
+description = "XML"
+sourceCompatibility = JavaVersion.VERSION_1_8
+
+/* ============================================================ */
+/* ========================= Versions ========================= */
+/* ============================================================ */
+
+ext {
+    monticore_version = "6.3.0-SNAPSHOT"
+    junit_version = "4.12"
+    findbugs_version = "3.0.0"
+    guava_version = "18.0"
+    antlr_version = "4.7.1"
+    assertj_version = "3.7.0"
+    commons_cli_version = "1.4"
+    logback_version = "1.1.2"
+    grammar_classifier = "grammars"
+    grammarDir = "src/main/grammars"
+}
+
+/* ============================================================ */
+/* ======================= Configuration ====================== */
+/* ============================================================ */
+
+// configure non-standard source sets
+sourceSets {
+    main.java.srcDirs += [ "$projectDir/target/generated-sources/monticore/sourcecode"]
+
+    test {
+        java.srcDir "$projectDir/src/test/java"
+        resources.srcDir "$projectDir/src/test/resources"
+    }
+    grammars {
+        resources {
+            srcDirs(grammarDir)
+            include "**/*.mc4"
+        }
+    }
+}
+
+buildDir = file("$projectDir/target")
+
+configurations { grammar }
+
+test {
+    useJUnit()
+}
+
+/* ============================================================ */
+/* ======================= Dependencies ======================= */
+/* ============================================================ */
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        credentials.username mavenUser
+        credentials.password mavenPassword
+        url repo
+    }
+}
+
+dependencies {
+    grammar "de.monticore:monticore-grammar:$monticore_version"
+    grammar "de.monticore:monticore-grammar:$monticore_version:$grammar_classifier"
+    implementation "org.antlr:antlr4-runtime:$antlr_version"
+    implementation "de.monticore:monticore-generator:$monticore_version"
+    implementation "de.monticore:monticore-runtime:$monticore_version"
+    implementation "de.monticore:monticore-grammar:$monticore_version"
+    implementation "org.assertj:assertj-core:$assertj_version"
+    implementation "commons-cli:commons-cli:$commons_cli_version"
+    implementation "com.google.guava:guava:$guava_version"
+    implementation "com.google.code.findbugs:jsr305:$findbugs_version"
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "de.monticore:monticore-runtime:$monticore_version"
+    testImplementation "ch.qos.logback:logback-classic:$logback_version"
+    compileOnly "de.monticore:monticore-grammar:$monticore_version"
+}
+
+/* ============================================================ */
+/* ========================== Tasks =========================== */
+/* ============================================================ */
+
+task generateXML(type: MCTask) {
+    grammar = file "$projectDir/$grammarDir/de/monticore/lang/XML.mc4"
+    outputDir = file "$buildDir/generated-sources/monticore/sourcecode"
+    handcodedPath file("$projectDir/src/main/java")
+    def uptoDate = incCheck("de/monticore/lang/XML.mc4")
+    outputs.upToDateWhen { uptoDate }
+}
+
+compileJava.dependsOn(generateXML)
+
+compileTestJava {
+    dependsOn project.collect { it.tasks.withType(MCTask) }
+}
+
+// Fixes issue with java plugin in projects without resources
+compileTestJava.doFirst { mkdir sourceSets.main.output.resourcesDir }
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+    options.deprecation = false
+    options.warnings = false
+}
+
+// build sources jar in addition
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier = "sources"
+}
+
+// build javadoc jar in addition
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier = "javadoc"
+}
+
+// generated java doc contains errors, disable for now
+javadoc.failOnError(false)
+
+// build grammar jar as well
+task grammarJar(type: Jar) {
+    from("$projectDir/src/main/grammars/") { include "**/*.mc4" }
+    archiveClassifier = "grammars"
+}
+
+/* ============================================================ */
+/* ======================= Publishing ========================= */
+/* ============================================================ */
+
+publishing {
+    // configure what artifacts to publish
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = "$project.name"
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            artifact grammarJar
+        }
+    }
+    /*
+    repositories.maven {
+        credentials.username mavenUser
+        credentials.password mavenPassword
+        def releasesRepoUrl = "https://nexus.se.rwth-aachen.de/content/repositories/monticore-releases/"
+        def snapshotsRepoUrl = "https://nexus.se.rwth-aachen.de/content/repositories/monticore-snapshots/"
+        url = version.endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
+    }
+    /**/
+}

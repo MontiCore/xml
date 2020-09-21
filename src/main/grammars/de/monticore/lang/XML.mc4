@@ -6,17 +6,20 @@ grammar XML extends de.monticore.literals.MCCommonLiterals {
   /** The starting nonterminal. */
   start XMLDocument;
   
+  /** An ASTXNodeContent represents an ASTXNode content. */
+  interface XNodeContent;
+
   /** An ASTXMLValue represents an arbitrary property value. */
-  interface XMLValue;
+  interface XMLValue extends XNodeContent;
   
   /** An ASTXMLDocument represents an input file in XML format.
     @attribute name The name of the XML document.
     @attribute values The top level values contained in the XML document.
   */
   XMLDocument = node:XNode*;
-  
-  XNode = "<" name:Name Attribute* ( "/>" | ">"
-    (node:XNode+ | value:XMLValue+)
+
+  XNode implements XNodeContent = "<" name:Name Attribute* ( "/>" | ">"
+    content:XNodeContent+
   "</" endKey:Name ">");
   
   /** An ASTXMLAttribute represents a key-value pair.
@@ -33,7 +36,7 @@ grammar XML extends de.monticore.literals.MCCommonLiterals {
   /** An ASTXMLString represents a String property value.
     @attribute value The actual value.
   */
-  XMLString implements XMLValue = value:String;
+  XMLString implements XMLValue = value:StringLiteral;
   
   /** An ASTXMLNames represents a concatenation of multiple names.
     @attribute value The actual value.
