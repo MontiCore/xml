@@ -6,7 +6,7 @@
 
 plugins {
     id "java"
-    id "monticore" version "6.3.0-SNAPSHOT"
+    id "monticore" version "6.4.0-SNAPSHOT"
     id "maven-publish"
     // id "de.set.ecj" version "1.4.1" // Eclipse compiler as it"s much faster than javac
     id "org.unbroken-dome.test-sets" version "3.0.1"
@@ -17,7 +17,7 @@ plugins {
 /* ============================================================ */
 
 group = "de.monticore.lang"
-version = "6.3.0-SNAPSHOT"
+version = "6.4.0-SNAPSHOT"
 description = "XML"
 sourceCompatibility = JavaVersion.VERSION_1_8
 
@@ -26,7 +26,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 /* ============================================================ */
 
 ext {
-    monticore_version = "6.3.0-SNAPSHOT"
+    monticore_version = "6.4.0-SNAPSHOT"
     junit_version = "4.12"
     findbugs_version = "3.0.0"
     guava_version = "18.0"
