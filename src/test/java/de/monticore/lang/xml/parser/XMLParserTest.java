@@ -21,9 +21,9 @@ public class XMLParserTest {
     Path model = Paths.get("src/test/resources/xml/parser/bookstore.xml");
     XMLParser parser = new XMLParser();
     
-    Optional<ASTXMLDocument> jsonDoc = parser.parse(model.toString());
+    Optional<ASTXMLDocument> xmlDoc = parser.parse(model.toString());
     assertFalse(parser.hasErrors());
-    assertTrue(jsonDoc.isPresent());
+    assertTrue(xmlDoc.isPresent());
   }
   
 }
