@@ -26,7 +26,6 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 /* ============================================================ */
 
 ext {
-    monticore_version = "6.4.0-SNAPSHOT"
     junit_version = "4.13.1"
     findbugs_version = "3.0.0"
     guava_version = "18.0"
@@ -83,20 +82,20 @@ repositories {
 }
 
 dependencies {
-    grammar "de.monticore:monticore-grammar:$monticore_version"
-    grammar "de.monticore:monticore-grammar:$monticore_version:$grammar_classifier"
+    grammar "de.monticore:monticore-grammar:${project.properties['mc_version']}"
+    grammar "de.monticore:monticore-grammar:${project.properties['mc_version']}:$grammar_classifier"
     implementation "org.antlr:antlr4-runtime:$antlr_version"
-    implementation "de.monticore:monticore-generator:$monticore_version"
-    implementation "de.monticore:monticore-runtime:$monticore_version"
-    implementation "de.monticore:monticore-grammar:$monticore_version"
+    implementation "de.monticore:monticore-generator:${project.properties['mc_version']}"
+    implementation "de.monticore:monticore-runtime:${project.properties['mc_version']}"
+    implementation "de.monticore:monticore-grammar:${project.properties['mc_version']}"
     implementation "org.assertj:assertj-core:$assertj_version"
     implementation "commons-cli:commons-cli:$commons_cli_version"
     implementation "com.google.guava:guava:$guava_version"
     implementation "com.google.code.findbugs:jsr305:$findbugs_version"
     testImplementation "junit:junit:$junit_version"
-    testImplementation "de.monticore:monticore-runtime:$monticore_version"
+    testImplementation "de.monticore:monticore-runtime:${project.properties['mc_version']}"
     testImplementation "ch.qos.logback:logback-classic:$logback_version"
-    compileOnly "de.monticore:monticore-grammar:$monticore_version"
+    compileOnly "de.monticore:monticore-grammar:${project.properties['mc_version']}"
 }
 
 /* ============================================================ */
