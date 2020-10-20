@@ -17,7 +17,6 @@ plugins {
 /* ============================================================ */
 
 group = "de.monticore.lang"
-version = "6.4.0-SNAPSHOT"
 description = "XML"
 sourceCompatibility = JavaVersion.VERSION_1_8
 
