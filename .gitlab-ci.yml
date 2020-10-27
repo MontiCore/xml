@@ -31,4 +31,4 @@ checkMDLinks:
     - "url=https://git.rwth-aachen.de/monticore/languages/xml/-/blob/develop/src/main/grammars/de/monticore/lang/xml.md"
     - "./check/mdlinkcheck.sh -url $url -t $secibuildtoken -p"
   only:
-    - dev
+    - develop
