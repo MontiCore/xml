@@ -30,6 +30,7 @@ ext {
     guava_version = "18.0"
     antlr_version = "4.7.1"
     assertj_version = "3.7.0"
+    se_commons_version = "1.7.11-SNAPSHOT"
     commons_cli_version = "1.4"
     logback_version = "1.1.2"
     grammar_classifier = "grammars"
@@ -83,6 +84,7 @@ repositories {
 dependencies {
     grammar "de.monticore:monticore-grammar:${project.properties['mc_version']}"
     grammar "de.monticore:monticore-grammar:${project.properties['mc_version']}:$grammar_classifier"
+    implementation "de.se_rwth.commons:se-commons-logging:$se_commons_version"
     implementation "org.antlr:antlr4-runtime:$antlr_version"
     implementation "de.monticore:monticore-generator:${project.properties['mc_version']}"
     implementation "de.monticore:monticore-runtime:${project.properties['mc_version']}"
