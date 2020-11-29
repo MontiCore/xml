@@ -6,7 +6,7 @@
 
 plugins {
     id "java"
-    id "monticore" version "6.5.0-SNAPSHOT"
+    id "monticore" version "6.6.0-SNAPSHOT"
     id "maven-publish"
     // id "de.set.ecj" version "1.4.1" // Eclipse compiler as it"s much faster than javac
     id "org.unbroken-dome.test-sets" version "3.0.1"
