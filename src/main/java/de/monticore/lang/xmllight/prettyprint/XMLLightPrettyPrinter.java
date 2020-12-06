@@ -1,21 +1,29 @@
 /* (c) https://github.com/MontiCore/monticore */
-package de.monticore.lang.xml.prettyprint;
-
-import de.monticore.lang.xml._ast.*;
-import de.monticore.lang.xml._visitor.XMLInheritanceVisitor;
-import de.monticore.lang.xml._visitor.XMLVisitor;
-import de.monticore.literals.mccommonliterals._ast.*;
-import de.monticore.prettyprint.IndentPrinter;
+package de.monticore.lang.xmllight.prettyprint;
 
 import java.util.Iterator;
-import java.util.List;
 
-public class XMLPrettyPrinter extends IndentPrinter implements XMLVisitor {
+import de.monticore.lang.xmllight._ast.ASTXMLAttribute;
+import de.monticore.lang.xmllight._ast.ASTXMLBoolean;
+import de.monticore.lang.xmllight._ast.ASTXMLContent;
+import de.monticore.lang.xmllight._ast.ASTXMLDocument;
+import de.monticore.lang.xmllight._ast.ASTXMLName;
+import de.monticore.lang.xmllight._ast.ASTXMLNode;
+import de.monticore.lang.xmllight._ast.ASTXMLNull;
+import de.monticore.lang.xmllight._ast.ASTXMLString;
+import de.monticore.lang.xmllight._visitor.XMLLightVisitor;
+import de.monticore.literals.mccommonliterals._ast.ASTSignedBasicDoubleLiteral;
+import de.monticore.literals.mccommonliterals._ast.ASTSignedBasicFloatLiteral;
+import de.monticore.literals.mccommonliterals._ast.ASTSignedBasicLongLiteral;
+import de.monticore.literals.mccommonliterals._ast.ASTSignedNatLiteral;
+import de.monticore.prettyprint.IndentPrinter;
+
+public class XMLLightPrettyPrinter extends IndentPrinter implements XMLLightVisitor {
 
   /**
    * Default Constructor.
    */
-  public XMLPrettyPrinter() {
+  public XMLLightPrettyPrinter() {
 
   }
 
@@ -32,23 +40,23 @@ public class XMLPrettyPrinter extends IndentPrinter implements XMLVisitor {
   }
 
   @Override
-  public void handle(ASTXNode node) {
+  public void handle(ASTXMLNode node) {
     print("<");
     print(node.getName());
 
     // traverse attributes
-    Iterator<ASTAttribute> iter_attributes = node.getAttributeList().iterator();
+    Iterator<ASTXMLAttribute> iter_attributes = node.getXMLAttributeList().iterator();
     while (iter_attributes.hasNext()) {
       iter_attributes.next().accept(getRealThis());
     }
 
-    if (node.isPresentEndKey()) {
+    if (node.isPresentEndFlag()) {
       print(">");
       println();
       indent();
 
       // traverse node content
-      Iterator<ASTXNodeContent> iter_content = node.getContentList().iterator();
+      Iterator<ASTXMLContent> iter_content = node.getXMLContentList().iterator();
       while (iter_content.hasNext()) {
         iter_content.next().accept(getRealThis());
       }
@@ -65,20 +73,10 @@ public class XMLPrettyPrinter extends IndentPrinter implements XMLVisitor {
   }
 
   @Override
-  public void visit(ASTAttribute node) {
+  public void visit(ASTXMLAttribute node) {
     print(" ");
-    print(node.getKey());
+    print(node.getName());
     print("=");
-  }
-
-  @Override
-  public void visit(ASTXMLArray node) {
-    println("[");
-  }
-  
-  @Override
-  public void endVisit(ASTXMLArray node) {
-    print("]");
   }
   
   @Override
@@ -112,17 +110,13 @@ public class XMLPrettyPrinter extends IndentPrinter implements XMLVisitor {
   }
 
   @Override
-  public void visit(ASTStringLiteral node) {
-    print("\"" + node.getSource() + "\"");
+  public void visit(ASTXMLString node) {
+    print("\"" + node.getStringLiteral().getSource() + "\"");
   }
 
   @Override
-  public void visit(ASTXMLNames node) {
-    String sep = "";
-    for (String name : node.getValueList()) {
-      print(sep + name);
-      sep = " ";
-    }
+  public void visit(ASTXMLName node) {
+    print(node.getName() + " ");
   }
 
 }

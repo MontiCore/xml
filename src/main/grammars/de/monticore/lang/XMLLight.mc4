@@ -1,0 +1,90 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore.lang;
+
+grammar XMLLight extends de.monticore.lang.XMLBasis {
+
+  /** An ASTXMLDocument represents an input file in XML format.
+    @attribute xmlProlog The header of the XML document
+    @attribute xmlNodes The top level XML nodes contained the XML document
+  */
+  XMLDocument = XMLProlog XMLNode*;
+  
+  /*========================================================================*/
+  /*============================== XML PROLOG ==============================*/
+  /*========================================================================*/
+  
+  /** An ASTXMLProlog The header of the XML document.
+    @attribute xMLAttributes Three specific attributes specifying version, 
+               encoding, and a flag whether the xml artifact has no external 
+               markup declarations
+    @attribute xMLPIs A list of process instructions for external applications
+    @attribute docTypeDecl A declaration of logical structure constraints
+  */
+  XMLProlog = ("<?xml" XMLAttribute* "?>")? XMLPI* DocTypeDecl? XMLPI*;
+  
+  /** An ASTDocTypeDecl declares in-line constraints on the logical structure 
+      of the following XML content.
+    @attribute xmlName The name of the document type declaration
+    @attribute externalID An external identifier
+    @attribute intSubset Usage of internal subsets (not part of XMLLight)
+  */
+  DocTypeDecl = "<!DOCTYPE" XMLName ExternalID? ("[" IntSubset "]")? ">";
+ 
+  /** An ASTExternalID represents an external identifier valid over multiple 
+      XML artifacts.
+    @attribute pubidLiteral The concrete public identifier (optional)
+    @attribute systemLiteral A system's descriptor, e.g., an URI
+  */
+  ExternalID = (["SYSTEM"] | ["PUBLIC"]) pubidLiteral:String? systemLiteral:String;
+  
+  /** Extension point for internal subsets */
+  IntSubset = ;
+ 
+  /*========================================================================*/
+  /*============================= XML CONTENT ==============================*/
+  /*========================================================================*/
+ 
+  /** An ASTXMLContent represent the constituents of an ASTXMLNode. */
+  interface XMLContent;
+
+  /** An ASTXMLNode represents a node in the XML tree.
+    @attribute name The name of the node
+    @attribute xmlAttributes A list of in-line attributes
+    @attribute xmlContens Content encapsulated by the node's markdown,
+               e.g., text, numbers, or further nodes
+    @attribute endFlag Has to match the nodes name
+  */
+  XMLNode implements XMLContent = "<" Name XMLAttribute* ( "/>" | ">"
+    XMLContent*
+  "</" endFlag:Name ">");
+  
+  /** An ASTXMLAttribute represents a key-value pair.
+    @attribute name The name of the attribute.
+    @attribute xmlString The actual value of the attribute.
+  */
+  XMLAttribute = Name "=" XMLString;
+  
+  /** ASTXMLCharData represents a plain text passage in the XML. Here, we 
+      restrict it to MontiCore's common literals.
+    @attribute xmlValues Parts of the XML plain text content
+  */
+  XMLCharData implements XMLContent = XMLValue+;
+  
+  /** ASTXMLPI allow documents to contain instructions for applications.
+    @attribute xmlValues Parts of an application's process instruction
+  */
+  XMLPI implements XMLContent = "<?" XMLName XMLValue+ "?>";
+  
+  /** General interface for textual content. Allows arbitrary Strings in the 
+      official specification. Here, we are a little bit more specific and 
+      restrict the contents to MontiCore literals.
+  */
+  interface XMLValue;
+  
+  /** Interface implementations based on XML and MontiCore. */
+  XMLBoolean implements XMLValue = value:BooleanLiteral;
+  XMLNumber implements XMLValue = value:SignedNumericLiteral;
+  XMLNull implements XMLValue = value:NullLiteral;
+  XMLString implements XMLValue; 
+  XMLName implements XMLValue; 
+}

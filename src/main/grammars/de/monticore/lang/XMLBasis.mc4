@@ -1,0 +1,12 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore.lang;
+
+component grammar XMLBasis extends de.monticore.literals.MCCommonLiterals {
+
+  // The current implementations for XMLString and XMLName are placeholder
+  // ToDo: Implement correct version w.r.t. specification
+
+  XMLString = StringLiteral;
+  
+  XMLName = Name;
+}

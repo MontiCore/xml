@@ -1,36 +1,36 @@
 /* (c) https://github.com/MontiCore/monticore */
-package de.monticore.lang.xml.prettyprint;
+package de.monticore.lang.xmllight.prettyprint;
 
-import de.monticore.lang.xml._ast.ASTXMLDocument;
-import de.monticore.lang.xml._parser.XMLParser;
-import org.antlr.v4.runtime.RecognitionException;
-import org.junit.Ignore;
-import org.junit.Test;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.antlr.v4.runtime.RecognitionException;
+import org.junit.Test;
 
-public class XMLPrettyPrinterTest {
+import de.monticore.lang.xmllight._ast.ASTXMLDocument;
+import de.monticore.lang.xmllight._parser.XMLLightParser;
 
+public class XMLLightPrettyPrinterTest {
+  
   @Test
   public void testBookstore() throws RecognitionException, IOException {
     Path model = Paths.get("src/test/resources/xml/prettyprint/bookstore.xml");
-    XMLParser parser = new XMLParser();
+    XMLLightParser parser = new XMLLightParser();
     
     // parse model
     Optional<ASTXMLDocument> xmlDoc = parser.parse(model.toString());
     assertFalse(parser.hasErrors());
     assertTrue(xmlDoc.isPresent());
-
+    
     // pretty print AST
-    XMLPrettyPrinter pp = new XMLPrettyPrinter();
+    XMLLightPrettyPrinter pp = new XMLLightPrettyPrinter();
     String printedModel = pp.printXMLDocument(xmlDoc.get());
-
+    
     // parse printed model
     Optional<ASTXMLDocument> printedXMLDoc = parser.parse_StringXMLDocument(printedModel);
     assertFalse(parser.hasErrors());
@@ -39,5 +39,5 @@ public class XMLPrettyPrinterTest {
     // original model and printed model should be the same
     assertTrue(xmlDoc.get().deepEquals(printedXMLDoc.get(), true));
   }
-
+  
 }

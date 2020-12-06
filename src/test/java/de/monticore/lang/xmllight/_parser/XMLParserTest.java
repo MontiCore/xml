@@ -1,5 +1,5 @@
 /* (c) https://github.com/MontiCore/monticore */
-package de.monticore.lang.xml.parser;
+package de.monticore.lang.xmllight._parser;
 
 import static org.junit.Assert.*;
 
@@ -11,15 +11,14 @@ import java.util.Optional;
 import org.antlr.v4.runtime.RecognitionException;
 import org.junit.Test;
 
-import de.monticore.lang.xml._ast.ASTXMLDocument;
-import de.monticore.lang.xml._parser.XMLParser;
+import de.monticore.lang.xmllight._ast.ASTXMLDocument;
 
 public class XMLParserTest {
   
   @Test
   public void testBookstore() throws RecognitionException, IOException {
     Path model = Paths.get("src/test/resources/xml/parser/bookstore.xml");
-    XMLParser parser = new XMLParser();
+    XMLLightParser parser = new XMLLightParser();
     
     Optional<ASTXMLDocument> xmlDoc = parser.parse(model.toString());
     assertFalse(parser.hasErrors());

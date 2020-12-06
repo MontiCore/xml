@@ -6,7 +6,7 @@
 
 plugins {
     id "java"
-    id "monticore" version "6.6.0-SNAPSHOT"
+    id "monticore" version "6.7.0-SNAPSHOT"
     id "maven-publish"
     // id "de.set.ecj" version "1.4.1" // Eclipse compiler as it"s much faster than javac
     id "org.unbroken-dome.test-sets" version "3.0.1"
@@ -103,15 +103,24 @@ dependencies {
 /* ========================== Tasks =========================== */
 /* ============================================================ */
 
-task generateXML(type: MCTask) {
-    grammar = file "$projectDir/$grammarDir/de/monticore/lang/XML.mc4"
+task generateXMLBasis(type: MCTask) {
+    grammar = file "$projectDir/$grammarDir/de/monticore/lang/XMLBasis.mc4"
     outputDir = file "$buildDir/generated-sources/monticore/sourcecode"
     handcodedPath "$projectDir/src/main/java"
     def uptoDate = incCheck("de/monticore/lang/XML.mc4")
     outputs.upToDateWhen { uptoDate }
 }
 
-compileJava.dependsOn(generateXML)
+task generateXMLLight(type: MCTask) {
+    grammar = file "$projectDir/$grammarDir/de/monticore/lang/XMLLight.mc4"
+    outputDir = file "$buildDir/generated-sources/monticore/sourcecode"
+    handcodedPath "$projectDir/src/main/java"
+    def uptoDate = incCheck("de/monticore/lang/XML.mc4")
+    outputs.upToDateWhen { uptoDate }
+    dependsOn(generateXMLBasis)
+}
+
+compileJava.dependsOn(generateXMLBasis,generateXMLLight)
 
 compileTestJava {
     dependsOn project.collect { it.tasks.withType(MCTask) }
