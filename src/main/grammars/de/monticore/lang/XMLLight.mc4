@@ -50,13 +50,13 @@ grammar XMLLight extends de.monticore.lang.XMLBasis {
   /** An ASTXMLNode represents a node in the XML tree.
     @attribute name The name of the node
     @attribute xmlAttributes A list of in-line attributes
-    @attribute xmlContens Content encapsulated by the node's markdown,
+    @attribute xmlContent Content encapsulated by the node's markdown,
                e.g., text, numbers, or further nodes
     @attribute endFlag Has to match the nodes name
   */
-  XMLNode implements XMLContent = "<" Name XMLAttribute* ( "/>" | ">"
+  XMLNode implements XMLContent = "<" Name XMLAttribute* (( "/>")| (">"
     XMLContent*
-  "</" endFlag:Name ">");
+  "</" endFlag:Name ">"));
   
   /** An ASTXMLAttribute represents a key-value pair.
     @attribute name The name of the attribute.

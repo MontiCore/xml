@@ -37,7 +37,7 @@ public class XMLLightPrettyPrinterTest {
     assertTrue(printedXMLDoc.isPresent());
     
     // original model and printed model should be the same
-    assertTrue(xmlDoc.get().deepEquals(printedXMLDoc.get(), true));
+    assertTrue(xmlDoc.get().deepEquals(printedXMLDoc.get()));
   }
   
 }
