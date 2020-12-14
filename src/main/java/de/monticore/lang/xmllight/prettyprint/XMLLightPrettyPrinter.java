@@ -104,6 +104,7 @@ public class XMLLightPrettyPrinter extends IndentPrinter implements XMLLightVisi
 
 	@Override
 	public void handle(ASTXMLNode node) {
+		println();
 		print("<");
 		print(node.getName());
 
@@ -115,21 +116,23 @@ public class XMLLightPrettyPrinter extends IndentPrinter implements XMLLightVisi
 
 		if (node.isPresentEndFlag()) {
 			print(">");
-			println();
-			indent();
 
 			// traverse node content
 			Iterator<ASTXMLContent> iter_content = node.getXMLContentList().iterator();
+			boolean isFirst =true;
 			while (iter_content.hasNext()) {
 				iter_content.next().accept(getTraverser());
+				if(isFirst){
+					isFirst=false;
+					indent();
+				}
 			}
-
-			println();
+			if (node.getXMLContentList().size()>1)
+				println();
 			unindent();
 			print("</");
 			print(node.getName());
 			print(">");
-			println();
 		} else {
 			print("/>");
 		}
