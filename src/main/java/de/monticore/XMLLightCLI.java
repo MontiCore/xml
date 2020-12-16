@@ -6,10 +6,7 @@ import de.monticore.lang.xmllight.XMLLightMill;
 import de.monticore.lang.xmllight._ast.ASTXMLDocument;
 import de.monticore.lang.xmllight._od.XMLLight2OD;
 import de.monticore.lang.xmllight._parser.XMLLightParser;
-import de.monticore.lang.xmllight._symboltable.IXMLLightArtifactScope;
-import de.monticore.lang.xmllight._symboltable.IXMLLightGlobalScope;
-import de.monticore.lang.xmllight._symboltable.XMLLightScopeDeSer;
-import de.monticore.lang.xmllight._symboltable.XMLLightScopesGenitorDelegator;
+import de.monticore.lang.xmllight._symboltable.*;
 import de.monticore.lang.xmllight.prettyprint.XMLLightPrettyPrinter;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.utils.Names;
@@ -95,7 +92,7 @@ public class XMLLightCLI {
 				Path output = Paths.get("target");
 				de.monticore.symboltable.serialization.JsonPrinter.disableIndentation();
 				String s = cmd.getOptionValue("symboltable", StringUtils.EMPTY);
-				XMLLightScopeDeSer deser = new XMLLightScopeDeSer();
+				XMLLightDeSer deser = new XMLLightDeSer();
 
 				if (!s.isEmpty()) {
 					String symbolFile = output.resolve(s.trim()).toAbsolutePath().toString();
@@ -106,7 +103,7 @@ public class XMLLightCLI {
 
 				//print (formatted!) symboltable to console
 				de.monticore.symboltable.serialization.JsonPrinter.enableIndentation();
-				System.out.println(deser.serialize(symbolTable));
+				System.out.println(deser.serialize(symbolTable,new XMLLightSymbols2Json()));
 			}
 
 			// -option pretty print
@@ -122,7 +119,7 @@ public class XMLLightCLI {
 			}
 		} catch (ParseException e) {
 			// an unexpected error from the apache CLI parser:
-			Log.error("0xA7147 Could not process CLI parameters: " + e.getMessage());
+			Log.error("0xA7112 Could not process CLI parameters: " + e.getMessage());
 		}
 
 	}
@@ -158,7 +155,7 @@ public class XMLLightCLI {
 			Path model = Paths.get(path.trim());
 			xmlDoc = parser.parse(model.toAbsolutePath().toString());
 		} catch (IOException | NullPointerException e) {
-			Log.error("0xA7148 Input file '" + path + "' not found.");
+			Log.error("0xA7113 Input file '" + path + "' not found.");
 		}
 
 		// re-enable fail-quick to print potential errors
@@ -189,11 +186,11 @@ public class XMLLightCLI {
 	 * @return serialized String
 	 */
 	public String storeSymbols(IXMLLightArtifactScope scope, Path out,
-														 XMLLightScopeDeSer deser) {
+														 XMLLightDeSer deser) {
 		Path f = out
 			.resolve(Paths.get(Names.getPathFromPackage(scope.getPackageName())))
 			.resolve(scope.getName() + ".xmlsym");
-		String serialized = deser.serialize(scope);
+		String serialized = deser.serialize(scope,new XMLLightSymbols2Json());
 		print(serialized, f.toString());
 		return serialized;
 	}
@@ -275,7 +272,7 @@ public class XMLLightCLI {
 				writer.write(content);
 				writer.close();
 			} catch (IOException e) {
-				Log.error("0xA7148 Could not write to file " + f.getAbsolutePath());
+				Log.error("0xA7114 Could not write to file " + f.getAbsolutePath());
 			}
 		}
 	}
@@ -289,8 +286,8 @@ public class XMLLightCLI {
 	 * @return serialized String
 	 */
 	public String storeSymbols(IXMLLightArtifactScope scope,
-														 String symbolFileName, XMLLightScopeDeSer deser) {
-		String serialized = deser.serialize(scope);
+														 String symbolFileName, XMLLightDeSer deser) {
+		String serialized = deser.serialize(scope,new XMLLightSymbols2Json());
 		print(serialized,symbolFileName);
 		return serialized;
 	}

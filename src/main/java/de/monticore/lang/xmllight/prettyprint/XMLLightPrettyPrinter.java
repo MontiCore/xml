@@ -148,7 +148,7 @@ public class XMLLightPrettyPrinter extends IndentPrinter implements XMLLightVisi
 	@Override
 	public void visit(ASTXMLPI node) {
 		println();
-		print("<? " + node.getXMLName() + " ");
+		print("<? ");
 	}
 
 	@Override
