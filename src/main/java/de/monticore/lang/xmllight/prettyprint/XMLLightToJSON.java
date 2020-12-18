@@ -16,6 +16,7 @@ import de.monticore.literals.mccommonliterals._visitor.MCCommonLiteralsVisitor2;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.symboltable.IScope;
 import de.monticore.symboltable.ISymbol;
+import de.se_rwth.commons.logging.Log;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -64,17 +65,79 @@ public class XMLLightToJSON extends IndentPrinter implements XMLLightVisitor2, X
 
 	@Override
 	public void handle(ASTXMLProlog node) {
-		//TODO : XMLProlog 2 JSON
+		if (node.getXMLAttributeList().size()>0){
+		print("\"xml\": ");
+			print("{");
+			println();
+			indent();
+			boolean first = true;
+			for (ASTXMLAttribute a:
+					 node.getXMLAttributeList()) {
+				if (first){
+					first=false;
+				}else {
+					println(",");
+				}
+				a.accept(getTraverser());
+			}
+			println();
+			unindent();
+			println("},");
+		}
+		if (node.isPresentDocTypeDecl()){
+			node.getDocTypeDecl().accept(getTraverser());
+			println(",");
+		}
+		if (node.getXMLPIList().size()>0){
+			for (ASTXMLPI p:
+					 node.getXMLPIList()) {
+				p.accept(getTraverser());
+				println(",");
+			}
+		}
 	}
 
 	@Override
 	public void handle(ASTDocTypeDecl node) {
-		//TODO: DocTypeDecl 2 JSON
+		println("\"!DOCTYPE\": {");
+		indent();
+		print("\"type\": \"");
+		node.getXMLName().accept(getTraverser());
+		print("\"");
+		if((node.isPresentIntSubset())||(node.isPresentExternalID())){
+			println(",");
+		}
+		if (node.isPresentExternalID()) {
+			node.getExternalID().accept(getTraverser());
+			if (node.isPresentIntSubset()) {
+				println(",");
+			}
+		}
+		if (node.isPresentIntSubset()) {
+			print("\"InternalSubsets\": \"Not implemented\"");
+		}
+		println();
+		unindent();
+		print("}");
 	}
 
 	@Override
 	public void visit(ASTExternalID node) {
-		//TODO ExternalID 2 JSON
+		println("\"ExternalID\": {");
+		indent();
+		print("\"SystemOrPublic\": \"");
+		if (node.isSYSTEM()){
+			print("SYSTEM");
+		} else if (node.isPUBLIC()){
+			print("PUBLIC");
+		}
+		println("\",");
+		if (node.isPresentPubidLiteral()){
+			println("\"PubID\": \""+node.getPubidLiteral()+"\",");
+		}
+		println("\"SystemLiteral\": \""+node.getSystemLiteral()+"\"");
+		unindent();
+		print("}");
 	}
 
 	@Override
@@ -133,12 +196,12 @@ public class XMLLightToJSON extends IndentPrinter implements XMLLightVisitor2, X
 	private void printToArray(ASTXMLNode node, List<Integer> indexes, String name) {
 		//Check for valid parameters
 		if (indexes.size() < 2) {
-			throw new InvalidParameterException("Error 0xA7110: parameter indexes has to have at least two elements");
+			Log.error("Error 0xA7110: parameter indexes has to have at least two elements");
 		}
 		for (Integer i :
 			indexes) {
 			if (!(node.getXMLContent(i) instanceof ASTXMLNode)) {
-				throw new InvalidParameterException("Error 0xA7111: Element " + i + "of node " + node.getName() + "is not an ASTXMLNode");
+				Log.error("Error 0xA7111: Element " + i + "of node " + node.getName() + "is not an ASTXMLNode");
 			}
 		}
 

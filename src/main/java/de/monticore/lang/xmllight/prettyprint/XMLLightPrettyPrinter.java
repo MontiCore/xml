@@ -77,7 +77,7 @@ public class XMLLightPrettyPrinter extends IndentPrinter implements XMLLightVisi
 	@Override
 	public void handle(ASTDocTypeDecl node) {
 		println();
-		print("<!DOCTYPE " + node.getXMLName() + " ");
+		print("<!DOCTYPE " + node.getXMLName().getName() + " ");
 		if (node.isPresentExternalID()) {
 			node.getExternalID().accept(getTraverser());
 		}
@@ -97,9 +97,9 @@ public class XMLLightPrettyPrinter extends IndentPrinter implements XMLLightVisi
 			print("PUBLIC ");
 		}
 		if (node.isPresentPubidLiteral()) {
-			print(node.getPubidLiteral() + " ");
+			print("\""+node.getPubidLiteral() + "\" ");
 		}
-		print(node.getSystemLiteral() + " ");
+		print("\""+node.getSystemLiteral() + "\" ");
 	}
 
 	@Override

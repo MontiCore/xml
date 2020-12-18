@@ -1,3 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<?bad "Testtest" ?>
+<!DOCTYPE EMail SYSTEM "http://www.example.org/xmlvorlagen/email.dtd">
 <bookstore>
   <book category="My Book">
     <title lang="ger">Everyday Things</title>

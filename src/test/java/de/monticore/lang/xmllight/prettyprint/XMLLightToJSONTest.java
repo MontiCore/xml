@@ -1,6 +1,8 @@
 package de.monticore.lang.xmllight.prettyprint;
 
 import de.monticore.XMLLightCLI;
+import de.monticore.lang.json._ast.ASTJSONDocument;
+import de.monticore.lang.json._parser.JSONParser;
 import de.monticore.lang.xmllight._ast.ASTXMLDocument;
 import de.monticore.lang.xmllight._parser.XMLLightParser;
 import org.antlr.v4.runtime.RecognitionException;
@@ -29,7 +31,9 @@ public class XMLLightToJSONTest {
 		XMLLightToJSON pp = new XMLLightToJSON();
 		String printedModel = pp.printXMLDocument(xmlDoc.get());
 
-		XMLLightCLI cli = new XMLLightCLI();
-		cli.print(printedModel,"src/test/resources/xml/prettyprint/bookstore.json");
+		JSONParser jsonParser = new JSONParser();
+		Optional<ASTJSONDocument> doc =jsonParser.parse_String(printedModel);
+		assertTrue(doc.isPresent());
+		assertFalse(jsonParser.hasErrors());
 	}
 }
