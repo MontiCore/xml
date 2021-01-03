@@ -1,6 +1,21 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang;
 
+/* Beta-version: This is intended to become a MontiCore stable grammar. */
+
+/**
+   XMLLight is is a subset of the XML dialect that covers
+   the typically often used XML language constructs.
+   
+   It does not cover:
+     TODO NJ
+     
+   XMLLight can be used for parsing these XML models,
+   but also for an internal representation of XML documents
+   which is used for manipulation of the XML 
+   and for pretty printing.
+*/
+
 grammar XMLLight extends de.monticore.lang.XMLBasis {
 
   /** An ASTXMLDocument represents an input file in XML format.
@@ -56,7 +71,7 @@ grammar XMLLight extends de.monticore.lang.XMLBasis {
   */
   XMLNode implements XMLContent = "<" Name XMLAttribute* (( "/>")| (">"
     XMLContent*
-  "</" endFlag:Name ">"));
+    "</" endFlag:Name ">"));
   
   /** An ASTXMLAttribute represents a key-value pair.
     @attribute name The name of the attribute.
@@ -83,8 +98,8 @@ grammar XMLLight extends de.monticore.lang.XMLBasis {
   
   /** Interface implementations based on XML and MontiCore. */
   XMLBoolean implements XMLValue = value:BooleanLiteral;
-  XMLNumber implements XMLValue = value:SignedNumericLiteral;
-  XMLNull implements XMLValue = value:NullLiteral;
-  XMLString implements XMLValue; 
-  XMLName implements XMLValue; 
+  XMLNumber  implements XMLValue = value:SignedNumericLiteral;
+  XMLNull    implements XMLValue = value:NullLiteral;
+  XMLString  implements XMLValue; 
+  XMLName    implements XMLValue; 
 }
