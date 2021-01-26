@@ -99,7 +99,7 @@ dependencies {
     testImplementation "junit:junit:$junit_version"
     testImplementation "de.monticore:monticore-runtime:${project.properties['mc_version']}"
     testImplementation "ch.qos.logback:logback-classic:$logback_version"
-    testImplementation "de.monticore.lang:JSON:${project.properties['mc_version']}"
+  //  testImplementation "de.monticore.lang:JSON:${project.properties['mc_version']}"
     compileOnly "de.monticore:monticore-grammar:${project.properties['mc_version']}"
 }
 
