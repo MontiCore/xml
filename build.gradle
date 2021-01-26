@@ -26,6 +26,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 /* ============================================================ */
 
 ext {
+    json_version = "6.6.0"
     junit_version = "4.13.1"
     findbugs_version = "3.0.0"
     guava_version = "18.0"
@@ -99,7 +100,7 @@ dependencies {
     testImplementation "junit:junit:$junit_version"
     testImplementation "de.monticore:monticore-runtime:${project.properties['mc_version']}"
     testImplementation "ch.qos.logback:logback-classic:$logback_version"
-  //  testImplementation "de.monticore.lang:JSON:${project.properties['mc_version']}"
+    testImplementation "de.monticore.lang:JSON:$json_version"
     compileOnly "de.monticore:monticore-grammar:${project.properties['mc_version']}"
 }
 
