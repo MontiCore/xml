@@ -4,12 +4,12 @@ image: maven:3.5.4-jdk-11
 
 stages:
   - build
-
+  - deploy
+  - check
 
 before_script:
   - chmod +x gradlew
   - export GRADLE_USER_HOME=`pwd`/.gradle
-
 
 build:
   stage: build
@@ -20,3 +20,32 @@ build:
       - "target/"
       - ".gradle/"
     expire_in: 1 week
+
+
+deploy:
+  stage: deploy
+  dependencies:
+    - build
+  script:
+    - "./gradlew publish -PmavenPassword=$pass -PmavenUser=$user $GRADLE_OPT $ARGS2"
+  artifacts:
+    paths:
+      - target/libs/XML-cli.jar
+    expire_in: 1 week
+  only:
+    refs:
+      - develop
+
+
+checkMDLinks:
+  stage: check
+  dependencies:
+    - build
+  script:
+    - "curl --location --header \"PRIVATE-TOKEN: $secibuildtoken\" \"https://git.rwth-aachen.de/api/v4/projects/monticore%2Fmdlinkchecker/jobs/artifacts/master/raw/target/libs/MDLinkCheckerCLI.jar?job=build\" --output MDLinkCheckerCLI.jar"
+    - "url=https://git.rwth-aachen.de/monticore/languages/xml/-/tree/develop"
+    - "linkCheckRes=$(java -jar MDLinkCheckerCLI.jar -url $url -t $secibuildtoken -p)"
+    - "echo \"$linkCheckRes\""
+    - "if [[ $linkCheckRes == *\"ERROR\"* ]]; then exit 1; fi"
+  only:
+    - develop
