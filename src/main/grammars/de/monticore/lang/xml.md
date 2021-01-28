@@ -24,22 +24,20 @@
   that adhere to the common [standard](https://www.w3.org/TR/2008/REC-xml-20081126/).
 * The XML grammars enables parsing arbitrary XML artifacts for further 
   processing.
-* ```XMLBasis``` provides general Tokens 
-* ```XMLLight``` represents the overall AST structure of the XML language 
-  while simultaneously being compliant to MontiCore's provided literals.
-* ```FullXML``` allows processing arbitrary XML-compliant artifacts,
-  including more sophistitated header information and parsing plain text
-  passages included into the document. Further well-formedness checks are
-  not included, because we assume to parse correctly produced XML
-  documents only.
+* ```XMLBasis``` [`de.monticore.lang.XMLBasis.mc4`](src/main/grammars/de/monticore/lang/XMLBasis.mc4)
+  provides general Tokens required for parsing the XML language.
+* ```XMLLight``` [`de.monticore.lang.XMLLight.mc4`](src/main/grammars/de/monticore/lang/XMLLight.mc4)
+  represents the overall AST structure of the XML language while
+  simultaneously being compliant to MontiCore's provided literals.
+* ```FullXML``` [`de.monticore.lang.FullXML.mc4`](src/main/grammars/de/monticore/lang/FullXML.mc4)
+  allows processing arbitrary XML-compliant artifacts, including more
+  sophistitated header information and parsing plain text passages included
+  into the document. Further well-formedness checks are not included,
+  because we assume to parse correctly produced XML documents only.
 * Please note that XML (like JSON or ASCII) is just a carrier language.
   The conrete XML dialect and the question, how to recreate the
   real objects / data structures, etc. behind the XML structure is beyond
   this grammar, but can be applied to the AST defined in ```XMLLight```.
-
-* XMLBasis grammar [`de.monticore.lang.XMLBasis.mc4`](src/main/grammars/de/monticore/lang/XMLBasis.mc4).
-* XMLLight grammar [`de.monticore.lang.XMLLight.mc4`](src/main/grammars/de/monticore/lang/XMLLight.mc4).
-* FullXML grammar [`de.monticore.lang.FullXML.mc4`](src/main/grammars/de/monticore/lang/FullXML.mc4).
 
 ## Symboltable
 * The XML artifacts do not provide any symbols.
@@ -67,7 +65,7 @@
 ## Handwritten Extensions
 * [XMLCLI](./src/main/java/de/monticore/XMLLightCLI.java)
   A command line interface for the XML language.
-* [XMLPrettyPrinter](./src/main/java/de/monticore/lang/xml/prettyprint/XMLLightPrettyPrinter.java)
+* [XMLPrettyPrinter](./src/main/java/de/monticore/lang/xmllight/prettyprint/XMLLightPrettyPrinter.java)
   A pretty-printer for serialzing XML-ASTs into XML-compliant artifacts.
 
 ## Further Information
