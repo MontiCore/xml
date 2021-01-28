@@ -10,7 +10,7 @@ library.
 Please note that XML (like JSON or ASCII) is just a carrier language.
 The concrete XML dialect and the question, how to recreate the
 real objects / data structures, etc. behind the XML structure
-is beyond this grammar but can be applied to the AST defined in *XMLLight*.
+is beyond this grammar but can be applied to the AST defined in ```XMLLight```.
 
 * XMLBasis [`de.monticore.lang.XMLBasis.mc4`](src/main/grammars/de/monticore/lang/XMLBasis.mc4).
 * XMLLight [`de.monticore.lang.XMLLight.mc4`](src/main/grammars/de/monticore/lang/XMLLight.mc4).
