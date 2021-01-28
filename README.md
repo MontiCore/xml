@@ -1,7 +1,30 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
 # XML
 
-MontiCore language for parsing XML artifacts.
+
+The MontiCore language XML defines the parsing and processing infrastructure 
+for XML artifacts.
+The language component (and full language) is part of the MontiCore language 
+library.
+
+Please note that XML (like JSON or ASCII) is just a carrier language.
+The concrete XML dialect and the question, how to recreate the
+real objects / data structures, etc. behind the XML structure
+is beyond this grammar but can be applied to the AST defined in *XMLLight*.
+
+* XMLBasis [`de.monticore.lang.XMLBasis.mc4`](src/main/grammars/de/monticore/lang/XMLBasis.mc4).
+* XMLLight [`de.monticore.lang.XMLLight.mc4`](src/main/grammars/de/monticore/lang/XMLLight.mc4).
+
+
+## Functionality
+
+### Parsing XML artifacts and pretty printing.
+* available ([see language explanation](src/main/grammars/de/monticore/lang/xml.md))
+  
+
+## Further Links
+
+* [XML grammars](src/main/grammars/de/monticore/lang/)
 
 ## Further Information
 
