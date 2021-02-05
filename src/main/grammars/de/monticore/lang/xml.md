@@ -1,5 +1,7 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
 
+<! Beta-version: This is intended to become a MontiCore stable explanation. -->
+
 # XML Language Description
 
 * The MontiCore language XML contains the grammar 
