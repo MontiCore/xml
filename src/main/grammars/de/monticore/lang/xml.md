@@ -22,28 +22,38 @@
 ```
 * The main purpose of this language is parsing general artifacts in XML format
   that adhere to the common [standard](https://www.w3.org/TR/2008/REC-xml-20081126/).
-* The XML grammars enables parsing arbitrary XML artifacts for further 
-  processing.
-* ```XMLBasis``` [`de.monticore.lang.XMLBasis.mc4`](src/main/grammars/de/monticore/lang/XMLBasis.mc4)
-  provides general Tokens required for parsing the XML language.
-* ```XMLLight``` [`de.monticore.lang.XMLLight.mc4`](src/main/grammars/de/monticore/lang/XMLLight.mc4)
-  represents the overall AST structure of the XML language while
-  simultaneously being compliant to MontiCore's provided literals.
-* ```FullXML``` [`de.monticore.lang.FullXML.mc4`](src/main/grammars/de/monticore/lang/FullXML.mc4)
-  allows processing arbitrary XML-compliant artifacts, including more
-  sophistitated header information and parsing plain text passages included
-  into the document. Further well-formedness checks are not included,
-  because we assume to parse correctly produced XML documents only.
-* Please note that XML (like JSON or ASCII) is just a carrier language.
+* The XML grammars enable parsing arbitrary XML artifacts 
+  into their abstract syntax for further processing.
+  * ```XMLBasis``` [`de.monticore.lang.XMLBasis.mc4`](src/main/grammars/de/monticore/lang/XMLBasis.mc4)
+    provides general tokens required for parsing the XML language.
+  * ```XMLLight``` [`de.monticore.lang.XMLLight.mc4`](src/main/grammars/de/monticore/lang/XMLLight.mc4)
+    represents the overall AST structure of the XML language while
+    simultaneously being compliant to the literals provided by 
+    MontiCore's literal grammars.
+    `XMLLight` does not cover all of XML, but a useful subset.
+  * ```FullXML``` [`de.monticore.lang.FullXML.mc4`](src/main/grammars/de/monticore/lang/FullXML.mc4)
+    allows processing arbitrary XML-compliant artifacts, including more
+    sophistitated header information and parsing plain text passages included
+    into the document. 
+* Please note: (1) Further well-formedness checks (beyond syntactic
+    correctnes) are not included,
+    because we assume to parse correctly produced XML documents only.
+    This approach is based on the assumption that the XML documents 
+    serve as data transportation format and thus have been produced by 
+    automatic tools that know what they are doing.
+* Please note that XML (like JSON, ASCII, and Unicode) 
+  is just a carrier language.
   The conrete XML dialect and the question, how to recreate the
   real objects / data structures, etc. behind the XML structure is beyond
-  this grammar, but can be applied to the AST defined in ```XMLLight```.
+  this grammar, but can be applied to the AST already defined in ```XMLLight```.
 
 ## Symboltable
-* The XML artifacts do not provide any symbols.
+* The XML artifacts do not provide any symbols, because the notion of 
+  names/symbols/identifiers is highly specific to the respectife XML dialect.
 
 ### Symbol kinds used by XML (importable):
-* None, because XML does not have mechanisms to refer to external symbols.
+* None, because XML does not have standardized 
+  mechanisms to refer to external symbols.
 
 ### Symbol kinds defined by XML:
 * Symbol kinds are currently explored.
@@ -57,7 +67,7 @@
     products, services, but also tools and simulators. XML artefacts are
     meant for reading and processing, not usually for referring to their
     internal information by other artifacts.
-* Thus there is no symbol-table to be stored.  
+* Thus there is generally no symbol-table to be stored.  
 
 ## Functionality: CoCos
 * none provided; it is assumed that the XML model was produced correctly.
