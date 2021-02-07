@@ -26,6 +26,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 /* ============================================================ */
 
 ext {
+    json_version = "6.6.0"
     junit_version = "4.13.1"
     findbugs_version = "3.0.0"
     guava_version = "18.0"
@@ -85,7 +86,9 @@ repositories {
 
 dependencies {
     grammar "de.monticore:monticore-grammar:${project.properties['mc_version']}"
-    grammar "de.monticore:monticore-grammar:${project.properties['mc_version']}:$grammar_classifier"
+    grammar ("de.monticore:monticore-grammar:$mc_version") {capabilities {
+      requireCapability("de.monticore:monticore-grammar-grammars") }
+    }
     implementation "de.se_rwth.commons:se-commons-logging:$se_commons_version"
     implementation "org.apache.commons:commons-lang3:$commons_lang_version"
     implementation "org.antlr:antlr4-runtime:$antlr_version"
@@ -99,7 +102,7 @@ dependencies {
     testImplementation "junit:junit:$junit_version"
     testImplementation "de.monticore:monticore-runtime:${project.properties['mc_version']}"
     testImplementation "ch.qos.logback:logback-classic:$logback_version"
-  //  testImplementation "de.monticore.lang:JSON:${project.properties['mc_version']}"
+    testImplementation "de.monticore.lang:JSON:$json_version"
     compileOnly "de.monticore:monticore-grammar:${project.properties['mc_version']}"
 }
 
@@ -192,3 +195,4 @@ publishing {
         url = version.endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
     }
 }
+
