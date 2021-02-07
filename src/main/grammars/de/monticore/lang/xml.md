@@ -1,6 +1,6 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
 
-<! This is a MontiCore stable explanation. -->
+<!-- This is a MontiCore stable explanation. -->
 
 # XML Language Description
 
@@ -56,9 +56,6 @@
 ### Symbol kinds used by XML (importable):
 * None, because XML does not have standardized 
   mechanisms to refer to external symbols.
-
-### Symbol kinds defined by XML:
-* Symbol kinds are currently explored.
 
 ### Symbols exported by XML:
 * XML documents generally do NOT export any symbols to external artifacts. 
