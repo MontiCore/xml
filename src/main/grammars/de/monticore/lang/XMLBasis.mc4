@@ -3,12 +3,59 @@ package de.monticore.lang;
 
 /* Alpha-version: This is intended to become a MontiCore stable grammar. */
 
+/**
+  XMLBasis provides custom tokens and nonterminals adopted to the official XML
+  standard, thus introducing extended character matching, such as Strings with
+  single quotation marks, special characters, and greek letters.
+*/
 component grammar XMLBasis extends de.monticore.literals.MCCommonLiterals {
 
-  // The current implementations for XMLString and XMLName are placeholder
-  // ToDo: Implement correct version w.r.t. specification
-
-  XMLString = StringLiteral;
-  
+  /**
+    Encapsulating the name token in a dedicated nonterminal allows for later
+    binding into an interface for seamless integration with other nonterminals.
+    For example, see XMLValue in XMLLight.
+  */
   XMLName = Name;
+  
+  /**
+    An XMLString is similar to regular String. However, the content can be put
+    into double as well as single quotation marks. Thus, we reuse the String
+    token for double quotation marks and add a custom token CharSequence for
+    allowing Strings with single quotation mark as well.
+  */
+  XMLString = String | CharSequence;
+  
+  
+  /**
+    A sequence of characters in single quotation marks. Covers a similar
+    purpose as the String token provided by MontiCore.
+  */
+  token CharSequence
+    = '\'' (SingleCharacter|EscapeSequence)+ '\''
+    : {setText(getText().substring(1, getText().length() - 1));};
+  
+  /**
+    Overriding the default Name token to match the requirements of XML. This
+    includes special characters, greek letters, etc.
+  */
+  @Override
+  token Name =
+      XMLNameChar+ ;
+  
+  fragment token XMLNameChar =
+      XMLNameStartChar | '-' | '.' | '0'..'9' | '\u00B7' |
+      '\u0300'..'\u036F' | '\u203F'..'\u2040';
+  
+  fragment token XMLNameStartChar =
+    ':' | 'A'..'Z' | '_' | 'a'..'z' |
+    '\u00C0'..'\u00D6' | '\u00D8'..'\u00F6' |
+    '\u00F8'..'\u02FF' | '\u0370'..'\u037D' |
+    '\u037F'..'\u1FFF' | '\u200C'..'\u200D' |
+    '\u2070'..'\u218F' | '\u2C00'..'\u2FEF' |
+    '\u3001'..'\uD7FF' | '\uF900'..'\uFDCF' |
+    '\uFDF0'..'\uFFFD' | '\uD800'..'\uDBFF' |
+    '\uDC00'..'\uDFFF';
+  
+  
+  
 }

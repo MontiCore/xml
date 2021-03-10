@@ -8,7 +8,9 @@ package de.monticore.lang;
    the typically often used XML language constructs.
    
    It does not cover:
-     TODO NJ
+   Arbitrary character sequences for plain text passages but 
+   offers a restricted and carefully depicted character sequence 
+   based on MontiCore's common literals. 
      
    XMLLight can be used for parsing these XML models,
    but also for an internal representation of XML documents
