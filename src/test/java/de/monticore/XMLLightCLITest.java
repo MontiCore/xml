@@ -3,7 +3,6 @@ package de.monticore;
 import de.monticore.lang.xmllight._ast.ASTXMLDocument;
 import de.monticore.lang.xmllight._parser.XMLLightParser;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -19,7 +18,6 @@ public class XMLLightCLITest {
 	private static final String INPUT = "src/test/resources/xml/parser/bookstore.xml";
 	private static final String PRINT = "target/generated-test-sources/bookstore.txt";
 
-	@Ignore
 	@Test
 	public void testParseAndPrint() throws IOException {
 		String[] args = { "-i", INPUT, "-pp", PRINT };
