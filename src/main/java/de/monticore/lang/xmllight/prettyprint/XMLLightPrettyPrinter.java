@@ -2,6 +2,8 @@
 package de.monticore.lang.xmllight.prettyprint;
 
 import de.monticore.ast.ASTNode;
+import de.monticore.lang.fullxml.FullXMLMill;
+import de.monticore.lang.fullxml._visitor.FullXMLTraverser;
 import de.monticore.lang.xmlbasis._visitor.XMLBasisVisitor2;
 import de.monticore.lang.xmllight._ast.*;
 import de.monticore.lang.xmllight._visitor.XMLLightHandler;
@@ -20,9 +22,9 @@ import de.monticore.symboltable.ISymbol;
 import java.util.Iterator;
 
 public class XMLLightPrettyPrinter extends IndentPrinter implements XMLLightVisitor2, XMLLightHandler, XMLBasisVisitor2, MCCommonLiteralsVisitor2 {
-	private XMLLightTraverser traverser;
+	private FullXMLTraverser traverser;
 
-	public void setTraverser(XMLLightTraverser realThis) {
+	public void setTraverser(FullXMLTraverser realThis) {
 		this.traverser = realThis;
 	}
 
@@ -34,7 +36,7 @@ public class XMLLightPrettyPrinter extends IndentPrinter implements XMLLightVisi
 	 * Default Constructor.
 	 */
 	public XMLLightPrettyPrinter() {
-		this.traverser = new XMLLightTraverserImplementation();
+		this.traverser = FullXMLMill.traverser();
 		this.traverser.add4XMLLight(this);
 		this.traverser.setXMLLightHandler(this);
 		this.traverser.add4XMLBasis(this);
@@ -106,7 +108,7 @@ public class XMLLightPrettyPrinter extends IndentPrinter implements XMLLightVisi
 	public void handle(ASTXMLNode node) {
 		println();
 		print("<");
-		print(node.getName());
+		print(node.getXMLName().getName());
 
 		// traverse attributes
 		Iterator<ASTXMLAttribute> iter_attributes = node.getXMLAttributeList().iterator();
@@ -131,7 +133,7 @@ public class XMLLightPrettyPrinter extends IndentPrinter implements XMLLightVisi
 				println();
 			unindent();
 			print("</");
-			print(node.getName());
+			print(node.getXMLName().getName());
 			print(">");
 		} else {
 			print("/>");
@@ -141,7 +143,7 @@ public class XMLLightPrettyPrinter extends IndentPrinter implements XMLLightVisi
 	@Override
 	public void visit(ASTXMLAttribute node) {
 		print(" ");
-		print(node.getName());
+		print(node.getXMLName().getName());
 		print("=");
 	}
 
