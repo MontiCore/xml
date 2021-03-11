@@ -41,7 +41,7 @@ grammar XMLLight extends de.monticore.lang.XMLBasis {
   
   /** An ASTDocTypeDecl declares in-line constraints on the logical structure 
       of the following XML content.
-    @attribute xmlName The name of the document type declaration
+    @attribute name The name of the document type declaration
     @attribute externalID An external identifier
     @attribute intSubset Usage of internal subsets (not part of XMLLight)
   */
@@ -71,7 +71,7 @@ grammar XMLLight extends de.monticore.lang.XMLBasis {
                e.g., text, numbers, or further nodes
     @attribute endFlag Has to match the nodes name
   */
-  XMLNode implements XMLContent = "<" XMLName XMLAttribute* (( "/>")| (">"
+  XMLNode implements XMLContent = "<" Name XMLAttribute* (( "/>")| (">"
     XMLContent*
     "</" endFlag:Name ">"));
   
@@ -79,7 +79,7 @@ grammar XMLLight extends de.monticore.lang.XMLBasis {
     @attribute name The name of the attribute.
     @attribute xmlString The actual value of the attribute.
   */
-  XMLAttribute = XMLName "=" XMLString;
+  XMLAttribute = Name "=" XMLString;
   
   /** ASTXMLCharData represents a plain text passage in the XML. Here, we 
       restrict it to MontiCore's common literals.

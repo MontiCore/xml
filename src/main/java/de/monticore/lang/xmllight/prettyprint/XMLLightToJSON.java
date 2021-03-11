@@ -141,7 +141,7 @@ public class XMLLightToJSON extends IndentPrinter implements XMLLightVisitor2, X
 
 	@Override
 	public void handle(ASTXMLNode node) {
-		print("\"" + node.getXMLName().getName() + "\": ");
+		print("\"" + node.getName() + "\": ");
 		printXMLNodeWithoutName(node);
 	}
 
@@ -158,12 +158,12 @@ public class XMLLightToJSON extends IndentPrinter implements XMLLightVisitor2, X
 		for (int i = 0; i < node.getXMLContentList().size(); i++) {
 			if (node.getXMLContent(i) instanceof ASTXMLNode) {
 				ASTXMLNode n = (ASTXMLNode) node.getXMLContent(i);
-				if (content.containsKey(n.getXMLName().getName())) {
-					content.get(n.getXMLName().getName()).add(i);
+				if (content.containsKey(n.getName())) {
+					content.get(n.getName()).add(i);
 				} else {
 					List<Integer> list = new ArrayList<>();
 					list.add(i);
-					content.put(n.getXMLName().getName(), list);
+					content.put(n.getName(), list);
 				}
 			}
 		}
@@ -200,7 +200,7 @@ public class XMLLightToJSON extends IndentPrinter implements XMLLightVisitor2, X
 		for (Integer i :
 			indexes) {
 			if (!(node.getXMLContent(i) instanceof ASTXMLNode)) {
-				Log.error("Error 0xA7111: Element " + i + "of node " + node.getXMLName().getName() + "is not an ASTXMLNode");
+				Log.error("Error 0xA7111: Element " + i + "of node " + node.getName() + "is not an ASTXMLNode");
 			}
 		}
 
@@ -261,7 +261,7 @@ public class XMLLightToJSON extends IndentPrinter implements XMLLightVisitor2, X
 						println(",");
 						//Special case: No key for content, and attributes
 						if (node.getXMLContentList().size() == 1) {
-							print("\"" + node.getXMLName().getName() + "\": ");
+							print("\"" + node.getName() + "\": ");
 						}
 					}
 					node.getXMLContent(i).accept(getTraverser());
@@ -279,7 +279,7 @@ public class XMLLightToJSON extends IndentPrinter implements XMLLightVisitor2, X
 
 	@Override
 	public void visit(ASTXMLAttribute node) {
-		print("\"-" + node.getXMLName().getName() + "\": ");
+		print("\"-" + node.getName() + "\": ");
 	}
 
 	@Override
