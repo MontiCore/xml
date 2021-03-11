@@ -18,7 +18,6 @@ import de.monticore.symboltable.IScope;
 import de.monticore.symboltable.ISymbol;
 import de.se_rwth.commons.logging.Log;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -324,7 +323,11 @@ public class XMLLightToJSON extends IndentPrinter implements XMLLightVisitor2, X
 
 	@Override
 	public void visit(ASTXMLString node) {
-		print("\"" + node.getStringLiteral().getSource() + "\"");
+		if (node.isPresentString()) {
+			print("\"" + node.getString() + "\"");
+		} else {
+			print("'" + node.getCharSequence() + "'");
+		}
 	}
 
 	@Override
