@@ -52,7 +52,7 @@ grammar XMLLight extends de.monticore.lang.XMLBasis {
     @attribute pubidLiteral The concrete public identifier (optional)
     @attribute systemLiteral A system's descriptor, e.g., an URI
   */
-  ExternalID = (["SYSTEM"] | ["PUBLIC"]) pubidLiteral:String? systemLiteral:String;
+  ExternalID = (["SYSTEM"] | ["PUBLIC"]) pubidLiteral:XMLString? systemLiteral:XMLString;
   
   /** Extension point for internal subsets */
   IntSubset = ;
@@ -71,7 +71,7 @@ grammar XMLLight extends de.monticore.lang.XMLBasis {
                e.g., text, numbers, or further nodes
     @attribute endFlag Has to match the nodes name
   */
-  XMLNode implements XMLContent = "<" Name XMLAttribute* (( "/>")| (">"
+  XMLNode implements XMLContent = "<" XMLName XMLAttribute* (( "/>")| (">"
     XMLContent*
     "</" endFlag:Name ">"));
   
@@ -79,7 +79,7 @@ grammar XMLLight extends de.monticore.lang.XMLBasis {
     @attribute name The name of the attribute.
     @attribute xmlString The actual value of the attribute.
   */
-  XMLAttribute = Name "=" XMLString;
+  XMLAttribute = XMLName "=" XMLString;
   
   /** ASTXMLCharData represents a plain text passage in the XML. Here, we 
       restrict it to MontiCore's common literals.
@@ -102,6 +102,6 @@ grammar XMLLight extends de.monticore.lang.XMLBasis {
   XMLBoolean implements XMLValue = value:BooleanLiteral;
   XMLNumber  implements XMLValue = value:SignedNumericLiteral;
   XMLNull    implements XMLValue = value:NullLiteral;
-  XMLString  implements XMLValue; 
-  XMLName    implements XMLValue; 
+  XMLString  implements XMLValue = String | CharSequence; 
+  XMLName    implements XMLValue = Name; 
 }

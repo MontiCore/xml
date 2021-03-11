@@ -1,0 +1,114 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore.lang;
+
+/* Alpha-version: This is intended to become a MontiCore stable grammar. */
+
+/**
+   FullXML completes the XML with further meta-information and full plain text
+   parsing support and thus covers a superset of the official specification.
+   It builds upon the AST structure of the XMLLight dialect and enriches it
+   with the required additional tokens and nonterminals.
+   
+   FullXML can be used for parsing arbitrary XML models and utilizes the
+   XMLLight dialect for internal representation of XML documents, which is 
+   used for manipulation of the XML and for pretty printing.
+*/
+grammar FullXML extends de.monticore.lang.XMLLight {
+
+  start XMLDocument;
+  
+  /*========================================================================*/
+  /*========================== XML Character Data ==========================*/
+  /*========================================================================*/
+
+  /** ASTXMLCharData represents a plain text passage in the XML. Here, we 
+      restrict it to MontiCore's common literals.
+    @attribute xmlValues Parts of the XML plain text content
+  */
+  @Override
+  XMLCharData implements XMLContent = XMLCD; 
+  
+  /** XMLCD represents plain text passages inside the XML document. Its proper
+      application is handled by the provided LexerUtils extension, which is
+      hooked into the lexer perform context aware decisions on whether to use
+      the XMLCD plain text passage.
+  */
+  token XMLCD =
+      {LexerUtils.isCharacterData(_input)}?
+        (~('<'|'&'))*; 
+  
+  /*========================================================================*/
+  /*============================ Internal Subset ===========================*/
+  /*========================================================================*/
+  
+  /**
+    Implementing the internal subset of an XML artifact allows for adding 
+    additional meta-information for the processing tool in form of so-called
+    declarations. The allowed declaration types are managed via an interface.
+  */
+  @Override
+  IntSubset = XMLDecl*;
+  
+  interface XMLDecl;
+  
+  /**
+    An ASTXMLElementDecl represents a specific kind of node in the header of an
+    XML document. It comprises a name and a sophisticated content specification.
+  */
+  XMLElementDecl implements XMLDecl = "<!ELEMENT" XMLName XMLConSpec ">";
+  
+  interface XMLConSpec;
+  
+  /**
+    Different types of content specifications for an element declaration.
+  */
+  XMLSimpleConSpec implements XMLConSpec = spec:[key("EMPTY") | key("ANY")];
+  XMLMixedConSpec  implements XMLConSpec = "(" "#PCDATA" ("|" XMLName)* ")" "*"?;
+  XMLChildConSpec  implements XMLConSpec = XMLName | XMLChoice | XMLSeq vis:["?" | "*" | "+"]?;
+  
+  XMLChoice = "(" (XMLChildConSpec || "|")+ ")" ;
+  XMLSeq = "(" (XMLChildConSpec || ",")* ")" ;
+  
+  /**
+    An ASTXMLAttlistDecl represents a specific kind of node in the header of an
+    XML document. It comprises a name and a list of predefined attributes.
+  */
+  XMLAttlistDecl implements XMLDecl = "<!ATTLIST" XMLName XMLAttDef* ">";
+  
+  XMLAttDef = XMLName XMLAttType presence:["#REQUIRED" | "#IMPLIED" | "#FIXED"]? XMLString?;
+  
+  interface XMLAttType;
+  
+  XMLSimpleType implements XMLAttType = 
+      type:[key("CDATA") | key("ID") | key("IDREF") | key("IDREFS") | 
+            key("ENTITY") | key("ENTITIES") | key("NMTOKEN") | key("NMTOKENS")];
+  
+  XMLEnumType implements XMLAttType = key("NOTATION")? "(" (XMLName || "|")+ ")";
+  
+  /**
+    An ASTXMLEnitityDecl represents a specific kind of node in the header of an
+    XML document. It represents (a reference towards) an entity in the document.
+  */
+  XMLEnitityDecl implements XMLDecl = "<!ENTITY" [param:"%"]? XMLName 
+      (value:XMLString | ExternalID ("NDATA" data:XMLName)?)">";
+  
+  /**
+    An ASTXMLNotationDecl represents a specific kind of node in the header of an
+    XML document. It contains an identifier for, e.g., an external application.
+  */
+  XMLNotationDecl implements XMLDecl = "<!NOTATION" XMLName ExternalID ">";
+  
+  /**
+    An ASTXMLDeclSep represents a specific kind of node in the header of an
+    XML document. It contains a name with the predefined separator "%".
+  */
+  XMLDeclSep implements XMLDecl = "%" XMLName ";";
+  
+  /** 
+    ASTXMLPI represents a specific kind of node in the header of an XML 
+    document. Its definition is inherited from XMLLight and further extended
+    for usage as an XMLDecl. It allows documents to contain instructions for 
+    applications.
+  */
+  XMLPI implements XMLDecl;
+}

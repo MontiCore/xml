@@ -11,22 +11,6 @@ package de.monticore.lang;
 component grammar XMLBasis extends de.monticore.literals.MCCommonLiterals {
 
   /**
-    Encapsulating the name token in a dedicated nonterminal allows for later
-    binding into an interface for seamless integration with other nonterminals.
-    For example, see XMLValue in XMLLight.
-  */
-  XMLName = Name;
-  
-  /**
-    An XMLString is similar to regular String. However, the content can be put
-    into double as well as single quotation marks. Thus, we reuse the String
-    token for double quotation marks and add a custom token CharSequence for
-    allowing Strings with single quotation mark as well.
-  */
-  XMLString = String | CharSequence;
-  
-  
-  /**
     A sequence of characters in single quotation marks. Covers a similar
     purpose as the String token provided by MontiCore.
   */
@@ -56,6 +40,13 @@ component grammar XMLBasis extends de.monticore.literals.MCCommonLiterals {
     '\uFDF0'..'\uFFFD' | '\uD800'..'\uDBFF' |
     '\uDC00'..'\uDFFF';
   
+  /** 
+    A multi line comment in XML style. The comments are not nested.
+    Comments are ignored by the parser.
+  */
+  token XML_COMMENT =
+    "<!--" .*? "-->"  : -> skip
+    {storeComment();};
   
   
 }
