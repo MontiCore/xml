@@ -84,7 +84,6 @@ repositories {
 }
 
 dependencies {
-    grammar "de.monticore:monticore-grammar:${project.properties['mc_version']}"
     grammar ("de.monticore:monticore-grammar:$mc_version") {capabilities {
       requireCapability("de.monticore:monticore-grammar-grammars") }
     }
