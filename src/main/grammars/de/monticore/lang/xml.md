@@ -38,7 +38,7 @@
     sophistitated header information and parsing plain text passages included
     into the document. 
 * Please note: (1) Further well-formedness checks (beyond syntactic
-    correctnes) are not included,
+    correctness) are not included,
     because we assume to parse correctly produced XML documents only.
     This approach is based on the assumption that the XML documents 
     serve as data transportation format and thus have been produced by 
