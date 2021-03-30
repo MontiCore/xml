@@ -1,7 +1,8 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang;
 
-/* Alpha-version: This is intended to become a MontiCore stable grammar. */
+/* This is a MontiCore stable grammar.
+ * Adaptations -- if any -- are conservative. */
 
 /**
   XMLBasis provides custom tokens and nonterminals adopted to the official XML
@@ -20,7 +21,12 @@ component grammar XMLBasis extends de.monticore.literals.MCCommonLiterals {
   
   /**
     Overriding the default Name token to match the requirements of XML. This
-    includes special characters, greek letters, etc.
+    includes special characters, greek letters, and similar characters.
+    
+    Overriding Name potentially bears risks when composing the XML 
+    grammar with other MontiCore language components, because
+    Name plays an essential role when dealing with symbols 
+    in the symbol management infrastructure.
   */
   @Override
   token Name =
