@@ -1,14 +1,17 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang;
 
-/* Beta-version: This is intended to become a MontiCore stable grammar. */
+/* This is a MontiCore stable grammar.
+ * Adaptations -- if any -- are conservative. */
 
 /**
    XMLLight is is a subset of the XML dialect that covers
    the typically often used XML language constructs.
    
    It does not cover:
-     TODO NJ
+   Arbitrary character sequences for plain text passages but 
+   offers a restricted and carefully depicted character sequence 
+   based on MontiCore's common literals. 
      
    XMLLight can be used for parsing these XML models,
    but also for an internal representation of XML documents
@@ -39,7 +42,7 @@ grammar XMLLight extends de.monticore.lang.XMLBasis {
   
   /** An ASTDocTypeDecl declares in-line constraints on the logical structure 
       of the following XML content.
-    @attribute xmlName The name of the document type declaration
+    @attribute name The name of the document type declaration
     @attribute externalID An external identifier
     @attribute intSubset Usage of internal subsets (not part of XMLLight)
   */
@@ -50,7 +53,7 @@ grammar XMLLight extends de.monticore.lang.XMLBasis {
     @attribute pubidLiteral The concrete public identifier (optional)
     @attribute systemLiteral A system's descriptor, e.g., an URI
   */
-  ExternalID = (["SYSTEM"] | ["PUBLIC"]) pubidLiteral:String? systemLiteral:String;
+  ExternalID = (["SYSTEM"] | ["PUBLIC"]) pubidLiteral:XMLString? systemLiteral:XMLString;
   
   /** Extension point for internal subsets */
   IntSubset = ;
@@ -100,6 +103,6 @@ grammar XMLLight extends de.monticore.lang.XMLBasis {
   XMLBoolean implements XMLValue = value:BooleanLiteral;
   XMLNumber  implements XMLValue = value:SignedNumericLiteral;
   XMLNull    implements XMLValue = value:NullLiteral;
-  XMLString  implements XMLValue; 
-  XMLName    implements XMLValue; 
+  XMLString  implements XMLValue = String | CharSequence; 
+  XMLName    implements XMLValue = Name; 
 }

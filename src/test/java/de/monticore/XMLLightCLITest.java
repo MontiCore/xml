@@ -2,6 +2,7 @@ package de.monticore;
 
 import de.monticore.lang.xmllight._ast.ASTXMLDocument;
 import de.monticore.lang.xmllight._parser.XMLLightParser;
+
 import org.junit.Test;
 
 import java.io.IOException;

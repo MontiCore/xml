@@ -1,8 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.xmllight.prettyprint;
 
-import java.util.Iterator;
-
 import de.monticore.ast.ASTNode;
 import de.monticore.lang.xmlbasis._visitor.XMLBasisVisitor2;
 import de.monticore.lang.xmllight._ast.*;
@@ -18,6 +16,8 @@ import de.monticore.literals.mccommonliterals._visitor.MCCommonLiteralsVisitor2;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.symboltable.IScope;
 import de.monticore.symboltable.ISymbol;
+
+import java.util.Iterator;
 
 public class XMLLightPrettyPrinter extends IndentPrinter implements XMLLightVisitor2, XMLLightHandler, XMLBasisVisitor2, MCCommonLiteralsVisitor2 {
 	private XMLLightTraverser traverser;
@@ -96,10 +96,6 @@ public class XMLLightPrettyPrinter extends IndentPrinter implements XMLLightVisi
 		} else if (node.isPUBLIC()) {
 			print("PUBLIC ");
 		}
-		if (node.isPresentPubidLiteral()) {
-			print("\""+node.getPubidLiteral() + "\" ");
-		}
-		print("\""+node.getSystemLiteral() + "\" ");
 	}
 
 	@Override
@@ -188,7 +184,11 @@ public class XMLLightPrettyPrinter extends IndentPrinter implements XMLLightVisi
 
 	@Override
 	public void visit(ASTXMLString node) {
-		print("\"" + node.getStringLiteral().getSource() + "\"");
+		if (node.isPresentString()) {
+		  print("\"" + node.getString() + "\"");
+		} else {
+			print("'" + node.getCharSequence() + "'");
+		}
 	}
 
 	@Override
