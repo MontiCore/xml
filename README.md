@@ -14,6 +14,7 @@ is beyond this grammar but can be applied to the AST defined in ```XMLLight```.
 
 * XMLBasis [`de.monticore.lang.XMLBasis.mc4`](src/main/grammars/de/monticore/lang/XMLBasis.mc4).
 * XMLLight [`de.monticore.lang.XMLLight.mc4`](src/main/grammars/de/monticore/lang/XMLLight.mc4).
+* FullXML [`de.monticore.lang.FullXML.mc4`](src/main/grammars/de/monticore/lang/FullXML.mc4).
 
 
 ## Functionality
