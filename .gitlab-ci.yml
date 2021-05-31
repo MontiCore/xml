@@ -71,11 +71,11 @@ githubmirror:
     - "if [ -d \"tmp\" ]; then rm -rf tmp; fi"
     - mkdir "tmp"
     - cd tmp
-    - git clone git@github.com:MontiCore/XML.git
+    - git clone git@github.com:MontiCore/xml.git
     - cd ..
-    - rm -r tmp/XML/*
-    - mv xml/* tmp/XML/
-    - cd tmp/XML
+    - rm -r tmp/xml/*
+    - mv xml/* tmp/xml/
+    - cd tmp/xml
     - git add --all
     - "(git commit -m 'Updated branch with most recent version.') || true"
     - git push --force
