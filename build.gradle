@@ -111,7 +111,7 @@ task generateXMLBasis(type: MCTask) {
     grammar = file "$projectDir/$grammarDir/de/monticore/lang/XMLBasis.mc4"
     outputDir = file "$buildDir/generated-sources/monticore/sourcecode"
     handcodedPath "$projectDir/src/main/java"
-    def uptoDate = incCheck("de/monticore/lang/XML.mc4")
+    def uptoDate = incCheck("de/monticore/lang/XMLBasis.mc4")
     outputs.upToDateWhen { uptoDate }
 }
 
@@ -119,7 +119,7 @@ task generateXMLLight(type: MCTask) {
     grammar = file "$projectDir/$grammarDir/de/monticore/lang/XMLLight.mc4"
     outputDir = file "$buildDir/generated-sources/monticore/sourcecode"
     handcodedPath "$projectDir/src/main/java"
-    def uptoDate = incCheck("de/monticore/lang/XML.mc4")
+    def uptoDate = incCheck("de/monticore/lang/XMLLight.mc4")
     outputs.upToDateWhen { uptoDate }
     dependsOn(generateXMLBasis)
 }
@@ -128,7 +128,7 @@ task generateFullXML(type: MCTask) {
     grammar = file "$projectDir/$grammarDir/de/monticore/lang/FullXML.mc4"
     outputDir = file "$buildDir/generated-sources/monticore/sourcecode"
     handcodedPath "$projectDir/src/main/java"
-    def uptoDate = incCheck("de/monticore/lang/XML.mc4")
+    def uptoDate = incCheck("de/monticore/lang/FullXML.mc4")
     outputs.upToDateWhen { uptoDate }
     dependsOn(generateXMLLight)
 }
