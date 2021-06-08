@@ -8,6 +8,7 @@ import de.monticore.lang.xmllight._ast.ASTXMLDocument;
 import de.monticore.lang.xmllight._od.XMLLight2OD;
 import de.monticore.lang.xmllight._parser.XMLLightParser;
 import de.monticore.lang.xmllight._symboltable.*;
+import de.monticore.lang.xmllight._visitor.XMLLightTraverser;
 import de.monticore.lang.xmllight.prettyprint.XMLLightPrettyPrinter;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.utils.Names;
@@ -243,7 +244,10 @@ public class XMLLightCLI {
 		IndentPrinter printer = new IndentPrinter();
 		MontiCoreNodeIdentifierHelper identifierHelper = new MontiCoreNodeIdentifierHelper();
 		ReportingRepository repository = new ReportingRepository(identifierHelper);
+    XMLLightTraverser traverser = XMLLightMill.traverser();
 		XMLLight2OD xml2od = new XMLLight2OD(printer, repository);
+    traverser.add4XMLLight(xml2od);
+    traverser.setXMLLightHandler(xml2od);
 
 		// print object diagram
 		String od = xml2od.printObjectDiagram((new File(modelName)).getName(), xmlDoc);
