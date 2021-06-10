@@ -2,7 +2,7 @@
 package de.monticore;
 
 import de.monticore.generating.templateengine.reporting.commons.ReportingRepository;
-import de.monticore.io.paths.ModelPath;
+import de.monticore.io.paths.MCPath;
 import de.monticore.lang.xmllight.XMLLightMill;
 import de.monticore.lang.xmllight._ast.ASTXMLDocument;
 import de.monticore.lang.xmllight._od.XMLLight2OD;
@@ -77,7 +77,7 @@ public class XMLLightCLI {
 			// (only returns if successful)
 			ASTXMLDocument ast = parseFile(cmd.getOptionValue("i"));
 
-			ModelPath mp = new ModelPath();
+			MCPath mp = new MCPath();
 
 			// -option path
 			if (cmd.hasOption("path")) {
@@ -203,10 +203,10 @@ public class XMLLightCLI {
 	 * @param ast The top XML(light) model element.
 	 * @return The artifact scope derived from the parsed AST
 	 */
-	public IXMLLightArtifactScope createSymbolTable(ASTXMLDocument ast, ModelPath modelPath) {
+	public IXMLLightArtifactScope createSymbolTable(ASTXMLDocument ast, MCPath symbolPath) {
 		IXMLLightGlobalScope globalScope = XMLLightMill.globalScope();
 		globalScope.clear();
-		globalScope.setModelPath(modelPath);
+		globalScope.setSymbolPath(symbolPath);
 
 		XMLLightScopesGenitorDelegator symbolTable = XMLLightMill.scopesGenitorDelegator();
 		return symbolTable.createFromAST(ast);
