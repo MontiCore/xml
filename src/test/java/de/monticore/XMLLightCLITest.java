@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
 import de.monticore.lang.xmllight._ast.ASTXMLDocument;
@@ -32,5 +33,17 @@ public class XMLLightCLITest {
 		assertFalse(parser.hasErrors());
 		assertTrue(xmlDoc.isPresent());
 		assertTrue(xmlDocexp.get().deepEquals(xmlDoc.get()));
+	}
+
+	@Test
+	public void testSyntaxObjects() throws IOException {
+		String[] args = { "-i", INPUT, "-so" };
+		XMLLightCLI.main(args);
+	}
+
+	@Test
+	public void testSymbolTable() throws IOException {
+		String[] args = { "-i", INPUT, "-s" };
+		XMLLightCLI.main(args);
 	}
 }
