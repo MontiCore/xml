@@ -8,7 +8,6 @@ plugins {
     id "java"
     id "monticore" version "$mc_version"
     id "maven-publish"
-    // id "de.set.ecj" version "1.4.1" // Eclipse compiler as it"s much faster than javac
     id "org.unbroken-dome.test-sets" version "3.0.1"
     id "com.github.johnrengelman.shadow" version "4.0.4"
 }
@@ -139,8 +138,6 @@ compileTestJava {
     dependsOn project.collect { it.tasks.withType(MCTask) }
 }
 
-// Fixes issue with java plugin in projects without resources
-compileTestJava.doFirst { mkdir sourceSets.main.output.resourcesDir }
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
@@ -153,6 +150,8 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allJava
     archiveClassifier = "sources"
 }
+
+sourcesJar.dependsOn project.collect { it.tasks.withType(MCTask)}
 
 // build javadoc jar in addition
 task javadocJar(type: Jar) {
