@@ -28,7 +28,7 @@ import java.util.Optional;
  * Defines, handles, and executes the corresponding command line options and
  * arguments, such as --help
  */
-public class XMLLightCLI {
+public class XMLCLI {
 
 
   /* Part 1: Handling the arguments and options
@@ -40,7 +40,7 @@ public class XMLLightCLI {
 	 * @param args The input parameters for configuring the XML(light) tool.
 	 */
 	public static void main(String[] args) {
-		XMLLightCLI cli = new XMLLightCLI();
+		XMLCLI cli = new XMLCLI();
 		cli.run(args);
 	}
 
@@ -135,7 +135,7 @@ public class XMLLightCLI {
 	public void printHelp(Options options) {
 		HelpFormatter formatter = new HelpFormatter();
 		formatter.setWidth(80);
-		formatter.printHelp("XMLLightCLI", options);
+		formatter.printHelp("XMLCLI", options);
 	}
 
 	/*=================================================================*/

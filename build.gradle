@@ -170,9 +170,10 @@ task grammarJar(type: Jar) {
 // all in one cli-jar
 shadowJar {
     manifest {
-        attributes "Main-Class": "de.monticore.XMLLightCLI"
+        attributes "Main-Class": "de.monticore.XMLCLI"
     }
-    archiveFileName = "xmllight-cli.jar"
+    archiveFileName = "xml-cli.jar"
+    archiveClassifier = "cli"
     minimize()
 }
 jar.dependsOn shadowJar
@@ -190,6 +191,7 @@ publishing {
             artifact sourcesJar
             artifact javadocJar
             artifact grammarJar
+            artifact shadowJar
         }
     }
     repositories.maven {

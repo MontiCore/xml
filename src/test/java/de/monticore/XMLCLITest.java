@@ -14,7 +14,7 @@ import java.util.Optional;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class XMLLightCLITest {
+public class XMLCLITest {
 
 	private static final String INPUT = "src/test/resources/xml/parser/bookstore.xml";
 	private static final String PRINT = "target/generated-test-sources/bookstore.txt";
@@ -22,7 +22,7 @@ public class XMLLightCLITest {
 	@Test
 	public void testParseAndPrint() throws IOException {
 		String[] args = { "-i", INPUT, "-pp", PRINT };
-		XMLLightCLI.main(args);
+		XMLCLI.main(args);
 
 		// check if printed XML is valid
 		XMLLightParser parser = new XMLLightParser();
@@ -38,12 +38,12 @@ public class XMLLightCLITest {
 	@Test
 	public void testSyntaxObjects() throws IOException {
 		String[] args = { "-i", INPUT, "-so" };
-		XMLLightCLI.main(args);
+		XMLCLI.main(args);
 	}
 
 	@Test
 	public void testSymbolTable() throws IOException {
 		String[] args = { "-i", INPUT, "-s" };
-		XMLLightCLI.main(args);
+		XMLCLI.main(args);
 	}
 }
