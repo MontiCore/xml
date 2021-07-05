@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.fullxml._parser;
 
 import java.util.Arrays;

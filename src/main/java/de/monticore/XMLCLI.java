@@ -1,12 +1,14 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore;
 
 import de.monticore.generating.templateengine.reporting.commons.ReportingRepository;
-import de.monticore.io.paths.ModelPath;
+import de.monticore.io.paths.MCPath;
 import de.monticore.lang.xmllight.XMLLightMill;
 import de.monticore.lang.xmllight._ast.ASTXMLDocument;
 import de.monticore.lang.xmllight._od.XMLLight2OD;
 import de.monticore.lang.xmllight._parser.XMLLightParser;
 import de.monticore.lang.xmllight._symboltable.*;
+import de.monticore.lang.xmllight._visitor.XMLLightTraverser;
 import de.monticore.lang.xmllight.prettyprint.XMLLightPrettyPrinter;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.utils.Names;
@@ -26,7 +28,7 @@ import java.util.Optional;
  * Defines, handles, and executes the corresponding command line options and
  * arguments, such as --help
  */
-public class XMLLightCLI {
+public class XMLCLI {
 
 
   /* Part 1: Handling the arguments and options
@@ -38,7 +40,7 @@ public class XMLLightCLI {
 	 * @param args The input parameters for configuring the XML(light) tool.
 	 */
 	public static void main(String[] args) {
-		XMLLightCLI cli = new XMLLightCLI();
+		XMLCLI cli = new XMLCLI();
 		cli.run(args);
 	}
 
@@ -75,7 +77,7 @@ public class XMLLightCLI {
 			// (only returns if successful)
 			ASTXMLDocument ast = parseFile(cmd.getOptionValue("i"));
 
-			ModelPath mp = new ModelPath();
+			MCPath mp = new MCPath();
 
 			// -option path
 			if (cmd.hasOption("path")) {
@@ -133,7 +135,7 @@ public class XMLLightCLI {
 	public void printHelp(Options options) {
 		HelpFormatter formatter = new HelpFormatter();
 		formatter.setWidth(80);
-		formatter.printHelp("XMLLightCLI", options);
+		formatter.printHelp("XMLCLI", options);
 	}
 
 	/*=================================================================*/
@@ -201,10 +203,10 @@ public class XMLLightCLI {
 	 * @param ast The top XML(light) model element.
 	 * @return The artifact scope derived from the parsed AST
 	 */
-	public IXMLLightArtifactScope createSymbolTable(ASTXMLDocument ast, ModelPath modelPath) {
+	public IXMLLightArtifactScope createSymbolTable(ASTXMLDocument ast, MCPath symbolPath) {
 		IXMLLightGlobalScope globalScope = XMLLightMill.globalScope();
 		globalScope.clear();
-		globalScope.setModelPath(modelPath);
+		globalScope.setSymbolPath(symbolPath);
 
 		XMLLightScopesGenitorDelegator symbolTable = XMLLightMill.scopesGenitorDelegator();
 		return symbolTable.createFromAST(ast);
@@ -242,7 +244,10 @@ public class XMLLightCLI {
 		IndentPrinter printer = new IndentPrinter();
 		MontiCoreNodeIdentifierHelper identifierHelper = new MontiCoreNodeIdentifierHelper();
 		ReportingRepository repository = new ReportingRepository(identifierHelper);
+    XMLLightTraverser traverser = XMLLightMill.traverser();
 		XMLLight2OD xml2od = new XMLLight2OD(printer, repository);
+    traverser.add4XMLLight(xml2od);
+    traverser.setXMLLightHandler(xml2od);
 
 		// print object diagram
 		String od = xml2od.printObjectDiagram((new File(modelName)).getName(), xmlDoc);

@@ -8,7 +8,6 @@ plugins {
     id "java"
     id "monticore" version "$mc_version"
     id "maven-publish"
-    // id "de.set.ecj" version "1.4.1" // Eclipse compiler as it"s much faster than javac
     id "org.unbroken-dome.test-sets" version "3.0.1"
     id "com.github.johnrengelman.shadow" version "4.0.4"
 }
@@ -31,7 +30,7 @@ ext {
     guava_version = "18.0"
     antlr_version = "4.7.1"
     assertj_version = "3.7.0"
-    se_commons_version = "1.7.11-SNAPSHOT"
+    se_commons_version = "7.1.0-SNAPSHOT"
     commons_cli_version = "1.4"
     logback_version = "1.1.2"
     grammar_classifier = "grammars"
@@ -111,7 +110,7 @@ task generateXMLBasis(type: MCTask) {
     grammar = file "$projectDir/$grammarDir/de/monticore/lang/XMLBasis.mc4"
     outputDir = file "$buildDir/generated-sources/monticore/sourcecode"
     handcodedPath "$projectDir/src/main/java"
-    def uptoDate = incCheck("de/monticore/lang/XML.mc4")
+    def uptoDate = incCheck("de/monticore/lang/XMLBasis.mc4")
     outputs.upToDateWhen { uptoDate }
 }
 
@@ -119,7 +118,7 @@ task generateXMLLight(type: MCTask) {
     grammar = file "$projectDir/$grammarDir/de/monticore/lang/XMLLight.mc4"
     outputDir = file "$buildDir/generated-sources/monticore/sourcecode"
     handcodedPath "$projectDir/src/main/java"
-    def uptoDate = incCheck("de/monticore/lang/XML.mc4")
+    def uptoDate = incCheck("de/monticore/lang/XMLLight.mc4")
     outputs.upToDateWhen { uptoDate }
     dependsOn(generateXMLBasis)
 }
@@ -128,7 +127,7 @@ task generateFullXML(type: MCTask) {
     grammar = file "$projectDir/$grammarDir/de/monticore/lang/FullXML.mc4"
     outputDir = file "$buildDir/generated-sources/monticore/sourcecode"
     handcodedPath "$projectDir/src/main/java"
-    def uptoDate = incCheck("de/monticore/lang/XML.mc4")
+    def uptoDate = incCheck("de/monticore/lang/FullXML.mc4")
     outputs.upToDateWhen { uptoDate }
     dependsOn(generateXMLLight)
 }
@@ -139,8 +138,6 @@ compileTestJava {
     dependsOn project.collect { it.tasks.withType(MCTask) }
 }
 
-// Fixes issue with java plugin in projects without resources
-compileTestJava.doFirst { mkdir sourceSets.main.output.resourcesDir }
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
@@ -153,6 +150,8 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allJava
     archiveClassifier = "sources"
 }
+
+sourcesJar.dependsOn project.collect { it.tasks.withType(MCTask)}
 
 // build javadoc jar in addition
 task javadocJar(type: Jar) {
@@ -171,9 +170,10 @@ task grammarJar(type: Jar) {
 // all in one cli-jar
 shadowJar {
     manifest {
-        attributes "Main-Class": "de.monticore.XMLLightCLI"
+        attributes "Main-Class": "de.monticore.XMLCLI"
     }
-    archiveFileName = "xmllight-cli.jar"
+    archiveFileName = "xml-cli.jar"
+    archiveClassifier = "cli"
     minimize()
 }
 jar.dependsOn shadowJar
@@ -191,6 +191,7 @@ publishing {
             artifact sourcesJar
             artifact javadocJar
             artifact grammarJar
+            artifact shadowJar
         }
     }
     repositories.maven {
