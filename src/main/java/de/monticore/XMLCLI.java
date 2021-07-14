@@ -28,6 +28,7 @@ import java.util.Optional;
  * Defines, handles, and executes the corresponding command line options and
  * arguments, such as --help
  */
+@Deprecated
 public class XMLCLI {
 
 
@@ -123,8 +124,8 @@ public class XMLCLI {
 			// an unexpected error from the apache CLI parser:
 			Log.error("0xA7112 Could not process CLI parameters: " + e.getMessage());
 		}
-
 	}
+
 
 	/**
 	 * Processes user input from command line and delegates to the corresponding
