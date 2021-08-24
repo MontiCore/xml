@@ -74,7 +74,7 @@ githubmirror:
     - git clone git@github.com:MontiCore/xml.git
     - cd ..
     - rm -r tmp/xml/*
-    - mv xml/* tmp/xml/
+    - mv xml/!(MDLinkChangerCLI.jar) tmp/xml/
     - cd tmp/xml
     - git add --all
     - "(git commit -m 'Updated branch with most recent version.') || true"
