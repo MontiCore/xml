@@ -51,7 +51,6 @@ checkMDLinks:
     - develop
 
 githubmirror:
-  image: maven:3-jdk-8
   stage: mirror
   dependencies:
     - checkMDLinks
