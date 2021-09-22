@@ -4,7 +4,6 @@ package de.monticore.lang.xmllight;
 import de.monticore.MontiCoreNodeIdentifierHelper;
 import de.monticore.generating.templateengine.reporting.commons.ReportingRepository;
 import de.monticore.io.paths.MCPath;
-import de.monticore.lang.xmllight.XMLLightMill;
 import de.monticore.lang.xmllight._ast.ASTXMLDocument;
 import de.monticore.lang.xmllight._od.XMLLight2OD;
 import de.monticore.lang.xmllight._parser.XMLLightParser;
@@ -18,7 +17,6 @@ import org.apache.commons.cli.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -81,18 +79,16 @@ public class XMLLightCLI extends XMLLightCLITOP{
         Path output = Paths.get("target");
         de.monticore.symboltable.serialization.JsonPrinter.disableIndentation();
         String s = cmd.getOptionValue("symboltable", StringUtils.EMPTY);
-        XMLLightDeSer deser = new XMLLightDeSer();
+        XMLLightSymbols2Json s2j = new XMLLightSymbols2Json();
 
         if (!s.isEmpty()) {
           Path symbolFile = output.resolve(s.trim()).toAbsolutePath();
-          storeSymbols(symbolTable, symbolFile, deser);
-        } else {
-          storeSymbols(symbolTable, output, deser);
+          storeSymbols(symbolTable, symbolFile, s2j);
         }
 
         //print (formatted!) symboltable to console
         de.monticore.symboltable.serialization.JsonPrinter.enableIndentation();
-        System.out.println(deser.serialize(symbolTable,new XMLLightSymbols2Json()));
+        System.out.println(s2j.serialize(symbolTable));
       }
 
       // -option pretty print
@@ -164,11 +160,11 @@ public class XMLLightCLI extends XMLLightCLITOP{
    */
 
   public String storeSymbols(IXMLLightArtifactScope scope, Path out,
-                             XMLLightDeSer deser) {
+                             XMLLightSymbols2Json s2j) {
     Path f = out
         .resolve(Paths.get(Names.getPathFromPackage(scope.getPackageName())))
         .resolve(scope.getName() + ".xmlsym");
-    String serialized = deser.serialize(scope,new XMLLightSymbols2Json());
+    String serialized = s2j.serialize(scope);
     print(serialized, f.toString());
     return serialized;
   }
