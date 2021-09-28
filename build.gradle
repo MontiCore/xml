@@ -170,7 +170,7 @@ task grammarJar(type: Jar) {
 // all in one cli-jar
 shadowJar {
     manifest {
-        attributes "Main-Class": "de.monticore.XMLCLI"
+        attributes "Main-Class": "de.monticore.lang.xmllight.XMLLightCLI"
     }
     archiveFileName = "xml-cli.jar"
     archiveClassifier = "cli"
