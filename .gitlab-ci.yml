@@ -42,7 +42,7 @@ checkMDLinks:
   dependencies:
     - build
   script:
-    - "curl --location --header \"PRIVATE-TOKEN: $secibuildtoken\" \"https://git.rwth-aachen.de/api/v4/projects/monticore%2Fmdlinkchecker/jobs/artifacts/master/raw/target/libs/MDLinkCheckerCLI.jar?job=build\" --output MDLinkCheckerCLI.jar"
+    - "curl --location --header \"PRIVATE-TOKEN: $secibuildtoken\" \"https://git.rwth-aachen.de/api/v4/projects/monticore%2Fauxiliary-development-tools%2Fmdlinkchecker/jobs/artifacts/master/raw/target/libs/MDLinkCheckerCLI.jar?job=build\" --output MDLinkCheckerCLI.jar"
     - "url=https://git.rwth-aachen.de/monticore/languages/xml/-/tree/develop"
     - "linkCheckRes=$(java -jar MDLinkCheckerCLI.jar -url $url -t $secibuildtoken -p)"
     - "echo \"$linkCheckRes\""
@@ -51,7 +51,6 @@ checkMDLinks:
     - develop
 
 githubmirror:
-  image: maven:3-jdk-8
   stage: mirror
   dependencies:
     - checkMDLinks
@@ -65,7 +64,7 @@ githubmirror:
     - mkdir -p ~/.ssh
     - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
   script:
-    - "curl --location --header \"PRIVATE-TOKEN: $secibuildtoken\" \"https://git.rwth-aachen.de/api/v4/projects/monticore%2Fmdlinkchecker/jobs/artifacts/master/raw/target/libs/MDLinkChangerCLI.jar?job=build\" --output MDLinkChangerCLI.jar"
+    - "curl --location --header \"PRIVATE-TOKEN: $secibuildtoken\" \"https://git.rwth-aachen.de/api/v4/projects/monticore%2Fauxiliary-development-tools%2Fmdlinkchecker/jobs/artifacts/master/raw/target/libs/MDLinkChangerCLI.jar?job=build\" --output MDLinkChangerCLI.jar"
     - sh pre/mirror.sh
     - cd ..
     - "if [ -d \"tmp\" ]; then rm -rf tmp; fi"
@@ -74,7 +73,8 @@ githubmirror:
     - git clone git@github.com:MontiCore/xml.git
     - cd ..
     - rm -r tmp/xml/*
-    - mv xml/* tmp/xml/
+    - shopt -s extglob
+    - mv xml/!(MDLinkChangerCLI.jar) tmp/xml/
     - cd tmp/xml
     - git add --all
     - "(git commit -m 'Updated branch with most recent version.') || true"
