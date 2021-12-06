@@ -62,6 +62,12 @@ buildDir = file("$projectDir/target")
 
 configurations { grammar }
 
+java {
+    registerFeature('grammars') {
+        usingSourceSet(sourceSets.grammars)
+    }
+}
+
 test {
     useJUnit()
 }
@@ -190,7 +196,6 @@ publishing {
             from components.java
             artifact sourcesJar
             artifact javadocJar
-            artifact grammarJar
             artifact shadowJar
         }
     }
