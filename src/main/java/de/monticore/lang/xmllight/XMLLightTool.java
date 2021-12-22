@@ -22,7 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-public class XMLLightCLI extends XMLLightCLITOP{
+public class XMLLightTool extends XMLLightToolTOP{
 
   /*=================================================================*/
   /* Part 1: Handling the arguments and options
