@@ -76,8 +76,8 @@
   typically produced by another program.
 
 ## Handwritten Extensions
-* [XMLCLI](./src/main/java/de/monticore/XMLLightCLI.java)
-  A command line interface for the XML language.
+* [XMLTool](./src/main/java/de/monticore/XMLLightTool.java)
+  A command line tool for the XML language.
 * [XMLPrettyPrinter](./src/main/java/de/monticore/lang/xmllight/prettyprint/XMLLightPrettyPrinter.java)
   A pretty-printer for serialzing XML-ASTs into XML-compliant artifacts.
 
