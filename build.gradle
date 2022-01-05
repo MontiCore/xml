@@ -167,13 +167,13 @@ task grammarJar(type: Jar) {
     from("$projectDir/src/main/grammars/") { include "**/*.mc4" }
     archiveClassifier = "grammars"
 }
-// all in one tool-jar
+// all in one cli-jar
 shadowJar {
     manifest {
         attributes "Main-Class": "de.monticore.lang.xmllight.XMLLightTool"
     }
-    archiveFileName = "xml-tool.jar"
-    archiveClassifier = "tool"
+    archiveFileName = "xml-cli.jar"
+    archiveClassifier = "cli"
     minimize()
 }
 jar.dependsOn shadowJar
