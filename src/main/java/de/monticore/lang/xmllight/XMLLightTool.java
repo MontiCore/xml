@@ -22,7 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-public class XMLLightCLI extends XMLLightCLITOP{
+public class XMLLightTool extends XMLLightToolTOP{
 
   /*=================================================================*/
   /* Part 1: Handling the arguments and options
@@ -41,8 +41,8 @@ public class XMLLightCLI extends XMLLightCLITOP{
 
     try {
       // create CLI parser and parse input options from command line
-      CommandLineParser clipparser = new DefaultParser();
-      CommandLine cmd = clipparser.parse(options, args);
+      CommandLineParser cliParser = new DefaultParser();
+      CommandLine cmd = cliParser.parse(options, args);
 
       // help: when --help
       if (cmd.hasOption("h")) {
@@ -234,7 +234,7 @@ public class XMLLightCLI extends XMLLightCLITOP{
   /*=================================================================*/
 
   /**
-   * Initializes the Standard CLI options for the JSON tool.
+   * Initializes the Standard options for the JSON tool.
    *
    * @return The CLI options with arguments.
    */
@@ -243,13 +243,13 @@ public class XMLLightCLI extends XMLLightCLITOP{
   public Options addStandardOptions(Options options) {
 
     //help
-    options.addOption(org.apache.commons.cli.Option.builder("h")
+    options.addOption(Option.builder("h")
         .longOpt("help")
         .desc("Prints this help dialog")
         .build());
 
     //parse input file
-    options.addOption(org.apache.commons.cli.Option.builder("i")
+    options.addOption(Option.builder("i")
         .longOpt("input")
         .argName("file")
         .hasArg()
@@ -257,7 +257,7 @@ public class XMLLightCLI extends XMLLightCLITOP{
         .build());
 
     //pretty print JSON
-    options.addOption(org.apache.commons.cli.Option.builder("pp")
+    options.addOption(Option.builder("pp")
         .longOpt("prettyprint")
         .argName("file")
         .optionalArg(true)
@@ -288,7 +288,7 @@ public class XMLLightCLI extends XMLLightCLITOP{
   }
 
   /**
-   * Initializes the Additional CLI options for the JSON tool.
+   * Initializes the Additional options for the JSON tool.
    *
    * @return The CLI options with arguments.
    */
