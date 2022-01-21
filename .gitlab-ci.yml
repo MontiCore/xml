@@ -30,7 +30,7 @@ deploy:
     - "gradle publish -PmavenPassword=$pass -PmavenUser=$user $GRADLE_OPT $ARGS2"
   artifacts:
     paths:
-      - target/libs/XML-cli.jar
+      - target/libs/MCXML.jar
     expire_in: 1 week
   only:
     refs:
