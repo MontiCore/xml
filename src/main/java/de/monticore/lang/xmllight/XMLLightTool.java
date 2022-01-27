@@ -11,7 +11,7 @@ import de.monticore.lang.xmllight._symboltable.*;
 import de.monticore.lang.xmllight._visitor.XMLLightTraverser;
 import de.monticore.lang.xmllight.prettyprint.XMLLightPrettyPrinter;
 import de.monticore.prettyprint.IndentPrinter;
-import de.monticore.utils.Names;
+import de.se_rwth.commons.Names;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.cli.*;
 import org.apache.commons.lang3.StringUtils;
