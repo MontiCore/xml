@@ -1,5 +1,5 @@
 /* (c) https://github.com/MontiCore/monticore */
-package de.monticore.lang.xmllight.prettyprint;
+package de.monticore.lang.fullxml;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -9,16 +9,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
+import de.monticore.lang.fullxml._prettyprint.FullXMLFullPrettyPrinter;
+import de.monticore.prettyprint.IndentPrinter;
 import org.antlr.v4.runtime.RecognitionException;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import de.monticore.lang.fullxml._parser.FullXMLParser;
 import de.monticore.lang.xmllight._ast.ASTXMLDocument;
 
-public class XMLLightPrettyPrinterTest {
+public class FullXMLPrettyPrinterTest {
   
-  @Ignore
   @Test
   public void testBookstore() throws RecognitionException, IOException {
     Path model = Paths.get("src/test/resources/xml/prettyprint/bookstore.xml");
@@ -30,8 +30,8 @@ public class XMLLightPrettyPrinterTest {
     assertTrue(xmlDoc.isPresent());
     
     // pretty print AST
-    XMLLightPrettyPrinter pp = new XMLLightPrettyPrinter();
-    String printedModel = pp.printXMLDocument(xmlDoc.get());
+    FullXMLFullPrettyPrinter pp = new FullXMLFullPrettyPrinter(new IndentPrinter());
+    String printedModel = pp.prettyprint(xmlDoc.get());
     
     // parse printed model
     Optional<ASTXMLDocument> printedXMLDoc = parser.parse_StringXMLDocument(printedModel);
