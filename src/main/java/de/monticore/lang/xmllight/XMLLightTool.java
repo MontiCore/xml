@@ -7,9 +7,9 @@ import de.monticore.io.paths.MCPath;
 import de.monticore.lang.xmllight._ast.ASTXMLDocument;
 import de.monticore.lang.xmllight._od.XMLLight2OD;
 import de.monticore.lang.xmllight._parser.XMLLightParser;
+import de.monticore.lang.xmllight._prettyprint.XMLLightFullPrettyPrinter;
 import de.monticore.lang.xmllight._symboltable.*;
 import de.monticore.lang.xmllight._visitor.XMLLightTraverser;
-import de.monticore.lang.xmllight.prettyprint.XMLLightPrettyPrinter;
 import de.monticore.prettyprint.IndentPrinter;
 import de.se_rwth.commons.Names;
 import de.se_rwth.commons.logging.Log;
@@ -145,8 +145,8 @@ public class XMLLightTool extends XMLLightToolTOP{
    */
   @Override
   public void prettyPrint(ASTXMLDocument xmldoc, String file) {
-    XMLLightPrettyPrinter pp = new XMLLightPrettyPrinter();
-    String s = pp.printXMLDocument(xmldoc);
+    XMLLightFullPrettyPrinter pp = new XMLLightFullPrettyPrinter(new IndentPrinter());
+    String s = pp.prettyprint(xmldoc);
     print(s, file);
   }
 
