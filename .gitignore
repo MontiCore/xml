@@ -7,3 +7,6 @@ target/
 *.iml
 .idea/
 .gradle/
+gradlew
+gradle/
+gradlew.bat
