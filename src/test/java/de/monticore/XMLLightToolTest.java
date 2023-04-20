@@ -5,6 +5,9 @@ import de.monticore.lang.xmllight.XMLLightTool;
 import de.monticore.lang.xmllight._ast.ASTXMLDocument;
 import de.monticore.lang.xmllight._parser.XMLLightParser;
 
+import de.se_rwth.commons.logging.Log;
+import de.se_rwth.commons.logging.LogStub;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -19,6 +22,13 @@ public class XMLLightToolTest {
 
   private static final String INPUT = "src/test/resources/xml/parser/bookstore.xml";
   private static final String PRINT = "target/generated-test-sources/bookstore.txt";
+
+
+  @Before
+  public void setup() {
+    LogStub.init();
+    Log.enableFailQuick(false);
+  }
 
   @Test
   public void testParseAndPrint() throws IOException {
