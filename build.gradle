@@ -9,7 +9,7 @@ plugins {
     id "monticore" version "$mc_version"
     id "maven-publish"
     id "org.unbroken-dome.test-sets" version "3.0.1"
-    id "com.github.johnrengelman.shadow" version "4.0.4"
+    id "com.github.johnrengelman.shadow" version "6.1.0"
 }
 
 /* ============================================================ */
@@ -27,10 +27,10 @@ sourceCompatibility = JavaVersion.VERSION_11
 ext {
     junit_version = "4.13.1"
     findbugs_version = "3.0.0"
-    guava_version = "18.0"
-    antlr_version = "4.7.1"
+    guava_version = "31.1-jre"
+    antlr_version = "4.12.0"
     assertj_version = "3.7.0"
-    se_commons_version = "7.3.0"
+    se_commons_version = "7.5.0"
     commons_cli_version = "1.4"
     logback_version = "1.1.2"
     grammar_classifier = "grammars"
