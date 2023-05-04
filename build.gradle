@@ -9,7 +9,7 @@ plugins {
     id "monticore" version "$mc_version"
     id "maven-publish"
     id "org.unbroken-dome.test-sets" version "3.0.1"
-    id "com.github.johnrengelman.shadow" version "6.1.0"
+    id "com.github.johnrengelman.shadow" version "4.0.4"
 }
 
 /* ============================================================ */
