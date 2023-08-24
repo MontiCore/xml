@@ -35,7 +35,7 @@ grammar FullXML extends de.monticore.lang.XMLLight {
       the XMLCD plain text passage.
   */
   token XMLCD =
-      {LexerUtils.isCharacterData(_input)}?
+      {de.monticore.lang.fullxml._parser.LexerUtils.isCharacterData(_input)}?
         (~('<'|'&'))*; 
   
   /*========================================================================*/
@@ -110,6 +110,8 @@ grammar FullXML extends de.monticore.lang.XMLLight {
     document. Its definition is inherited from XMLLight and further extended
     for usage as an XMLDecl. It allows documents to contain instructions for 
     applications.
+
+    We need to wrap the definition in a new production, otherwise Antlr can not handle the resulting possible loops.
   */
-  XMLPI implements XMLDecl;
+  XMLPIWrapper implements XMLDecl = XMLPI;
 }

@@ -48,6 +48,7 @@ sourceSets {
 
     test {
         java.srcDir "$projectDir/src/test/java"
+        java.srcDir "$projectDir/target/generated-test-sources/monticore/sourcecode"
         resources.srcDir "$projectDir/src/test/resources"
     }
     grammars {
@@ -138,6 +139,15 @@ task generateFullXML(type: MCTask) {
     dependsOn(generateXMLLight)
 }
 
+task generateLangEmbeddingFullXML(type: MCTask) {
+  grammar = file "$projectDir/src/test/grammars/LangEmbeddingFullXML.mc4"
+  outputDir = file "$buildDir/generated-test-sources/monticore/sourcecode"
+  handcodedPath "$projectDir/src/test/java"
+  def uptoDate = incCheck("LangEmbeddingFullXML.mc4")
+  outputs.upToDateWhen { uptoDate }
+  dependsOn(generateFullXML)
+}
+
 compileJava.dependsOn(generateXMLBasis,generateXMLLight,generateFullXML)
 
 compileTestJava {
@@ -158,7 +168,7 @@ task sourcesJar(type: Jar) {
     archiveClassifier = "sources"
 }
 
-sourcesJar.dependsOn project.collect { it.tasks.withType(MCTask)}
+sourcesJar.dependsOn project.collect { it.tasks.withType(MCTask).collect{ it != tasks.generateLangEmbeddingFullXML } }
 
 // build javadoc jar in addition
 task javadocJar(type: Jar) {
@@ -174,6 +184,7 @@ task grammarJar(type: Jar) {
     from("$projectDir/src/main/grammars/") { include "**/*.mc4" }
     archiveClassifier = "grammars"
 }
+jar.dependsOn grammarJar
 // all in one tool-jar
 shadowJar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
