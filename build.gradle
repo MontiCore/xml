@@ -168,7 +168,7 @@ task sourcesJar(type: Jar) {
     archiveClassifier = "sources"
 }
 
-sourcesJar.dependsOn project.collect { it.tasks.withType(MCTask).collect{ it != tasks.generateLangEmbeddingFullXML } }
+sourcesJar.dependsOn project.collect { it.tasks.withType(MCTask).findAll{ it != tasks.generateLangEmbeddingFullXML } }
 
 // build javadoc jar in addition
 task javadocJar(type: Jar) {
