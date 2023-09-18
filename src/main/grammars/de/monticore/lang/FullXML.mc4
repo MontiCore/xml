@@ -37,7 +37,12 @@ grammar FullXML extends de.monticore.lang.XMLLight {
   token XMLCD =
       {de.monticore.lang.fullxml._parser.LexerUtils.isCharacterData(_input)}?
         (~('<'|'&'))*; 
-  
+
+  // XMLCD and Name need to be mutually exclusive
+  @Override
+  token Name =
+      {!de.monticore.lang.fullxml._parser.LexerUtils.isCharacterData(_input)}? XMLNameChar+;
+
   /*========================================================================*/
   /*============================ Internal Subset ===========================*/
   /*========================================================================*/
