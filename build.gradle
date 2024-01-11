@@ -193,7 +193,6 @@ shadowJar {
     }
     archiveFileName = "MCXML.jar"
     archiveClassifier = "mc-tool"
-    minimize()
 }
 jar.dependsOn shadowJar
 
