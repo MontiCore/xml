@@ -7,15 +7,14 @@ import java.util.List;
 import org.antlr.v4.runtime.CharStream;
 
 public class LexerUtils {
-  
-  private final static List<Integer> WS = Arrays.asList(32, 23, 13, 12, 10);
-  private final static int OPEN_BRACKET = 60;  //<
-  private final static int CLOSE_BRACKET = 62; //>
-  private final static int SEMICOLON = 59;    //;
-  private final static int AMPERSAND = 38;    //&
+  // These are the utf8 codes of the characters, not token numbers
+  private final static List<Integer> WS = Arrays.asList(0x0020, 0x0017, 0x000d, 0x000c, 0x000a);
+  private final static int OPEN_BRACKET = '<';  //<
+  private final static int CLOSE_BRACKET = '>'; //>
+  private final static int SEMICOLON = ';';    //;
+  private final static int AMPERSAND = '&';    //&
   private final static int EOF = -1;
 
-  
   public static boolean isCharacterData(CharStream cs) {
     // look ahead for < or end of file
     int j = 1;

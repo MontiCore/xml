@@ -1,0 +1,5 @@
+// This grammar checks that FullXML can be embedded into another language
+
+grammar LangEmbeddingFullXML extends de.monticore.lang.FullXML {
+  EmbeddedCU = "XML" ":" XMLDocument;
+}
