@@ -24,7 +24,7 @@ grammar FullXML extends de.monticore.lang.XMLLight {
 
   /** ASTXMLCharData represents a plain text passage in the XML. Here, we 
       restrict it to MontiCore's common literals.
-    @attribute xmlValues Parts of the XML plain text content
+      @attribute xmlValues Parts of the XML plain text content
   */
   @Override
   XMLCharData implements XMLContent = XMLCD; 
@@ -35,13 +35,14 @@ grammar FullXML extends de.monticore.lang.XMLLight {
       the XMLCD plain text passage.
   */
   token XMLCD =
-      {de.monticore.lang.fullxml._parser.LexerUtils.isCharacterData(_input)}?
-        (~('<'|'&'))*; 
+    {de.monticore.lang.fullxml._parser.LexerUtils.isCharacterData(_input)}?
+    (~('<'|'&'))*; 
 
   // XMLCD and Name need to be mutually exclusive
   @Override
   token Name =
-      {!de.monticore.lang.fullxml._parser.LexerUtils.isCharacterData(_input)}? XMLNameChar+;
+    {!de.monticore.lang.fullxml._parser.LexerUtils.isCharacterData(_input)}?
+    XMLNameChar+;
 
   /*========================================================================*/
   /*============================ Internal Subset ===========================*/
@@ -86,8 +87,8 @@ grammar FullXML extends de.monticore.lang.XMLLight {
   interface XMLAttType;
   
   XMLSimpleType implements XMLAttType = 
-      type:[key("CDATA") | key("ID") | key("IDREF") | key("IDREFS") | 
-            key("ENTITY") | key("ENTITIES") | key("NMTOKEN") | key("NMTOKENS")];
+    type:[key("CDATA") | key("ID") | key("IDREF") | key("IDREFS") | 
+          key("ENTITY") | key("ENTITIES") | key("NMTOKEN") | key("NMTOKENS")];
   
   XMLEnumType implements XMLAttType = key("NOTATION")? "(" (XMLName || "|")+ ")";
   
@@ -116,7 +117,9 @@ grammar FullXML extends de.monticore.lang.XMLLight {
     for usage as an XMLDecl. It allows documents to contain instructions for 
     applications.
 
-    We need to wrap the definition in a new production, otherwise Antlr can not handle the resulting possible loops.
+    We need to wrap the definition in this new production,
+    for Antlr to handle the resulting possible loops.
   */
   XMLPIWrapper implements XMLDecl = XMLPI;
+
 }
