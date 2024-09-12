@@ -265,24 +265,6 @@ public class XMLLightTool extends XMLLightToolTOP{
         .desc("Prints the XML(light)-AST to stdout or the specified file (optional)")
         .build());
 
-    // pretty print SC
-    options.addOption(Option.builder("s")
-        .longOpt("symboltable")
-        .desc("Serializes and prints the symbol table to stdout, if present, the specified output file")
-        .optionalArg(true)
-        .numberOfArgs(1)
-        .argName("file")
-        .build());
-
-    // set path for imported symbols
-    options.addOption(Option.builder("path")
-        .desc("Sets the artifact path for imported symbols")
-        .argName("dirlist")
-        .hasArg()
-        .hasArgs()
-        .valueSeparator(' ')
-        .build());
-
     return options;
 
   }
