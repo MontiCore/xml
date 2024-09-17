@@ -22,6 +22,7 @@ public class XMLLightToolTest {
 
   private static final String INPUT = "src/test/resources/xml/parser/bookstore.xml";
   private static final String PRINT = "target/generated-test-sources/bookstore.txt";
+  private static final String OD = "target/generated-test-sources/bookstore.od";
 
 
   @Before
@@ -48,7 +49,7 @@ public class XMLLightToolTest {
 
   @Test
   public void testSyntaxObjects() throws IOException {
-    String[] args = { "-i", INPUT, "-so" };
+    String[] args = { "-i", INPUT, "-so", OD };
     XMLLightTool.main(args);
   }
 
