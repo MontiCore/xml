@@ -51,8 +51,7 @@ component grammar XMLBasis extends de.monticore.literals.MCCommonLiterals {
     Comments are ignored by the parser.
   */
   token XML_COMMENT =
-    "<!--" .*? "-->"  : -> skip
-    {storeComment();};
+    "<!--" .*? "-->"  : -> channel(HIDDEN);
   
   
 }
