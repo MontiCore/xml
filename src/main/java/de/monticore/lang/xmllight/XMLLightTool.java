@@ -1,14 +1,17 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.xmllight;
 
-import de.monticore.MontiCoreNodeIdentifierHelper;
+import de.monticore.generating.templateengine.reporting.commons.ASTNodeIdentHelper;
 import de.monticore.generating.templateengine.reporting.commons.ReportingRepository;
 import de.monticore.io.paths.MCPath;
 import de.monticore.lang.xmllight._ast.ASTXMLDocument;
 import de.monticore.lang.xmllight._od.XMLLight2OD;
 import de.monticore.lang.xmllight._parser.XMLLightParser;
 import de.monticore.lang.xmllight._prettyprint.XMLLightFullPrettyPrinter;
-import de.monticore.lang.xmllight._symboltable.*;
+import de.monticore.lang.xmllight._symboltable.IXMLLightArtifactScope;
+import de.monticore.lang.xmllight._symboltable.IXMLLightGlobalScope;
+import de.monticore.lang.xmllight._symboltable.XMLLightScopesGenitorDelegator;
+import de.monticore.lang.xmllight._symboltable.XMLLightSymbols2Json;
 import de.monticore.lang.xmllight._visitor.XMLLightTraverser;
 import de.monticore.prettyprint.IndentPrinter;
 import de.se_rwth.commons.Names;
@@ -216,7 +219,7 @@ public class XMLLightTool extends XMLLightToolTOP{
   public void xml2od(ASTXMLDocument xmlDoc, String modelName, String file) {
     // initialize XML(light)n2od printer
     IndentPrinter printer = new IndentPrinter();
-    MontiCoreNodeIdentifierHelper identifierHelper = new MontiCoreNodeIdentifierHelper();
+    ASTNodeIdentHelper identifierHelper = new ASTNodeIdentHelper();
     ReportingRepository repository = new ReportingRepository(identifierHelper);
     XMLLightTraverser traverser = XMLLightMill.traverser();
     XMLLight2OD xml2od = new XMLLight2OD(printer, repository);
@@ -263,24 +266,6 @@ public class XMLLightTool extends XMLLightToolTOP{
         .optionalArg(true)
         .numberOfArgs(1)
         .desc("Prints the XML(light)-AST to stdout or the specified file (optional)")
-        .build());
-
-    // pretty print SC
-    options.addOption(Option.builder("s")
-        .longOpt("symboltable")
-        .desc("Serializes and prints the symbol table to stdout, if present, the specified output file")
-        .optionalArg(true)
-        .numberOfArgs(1)
-        .argName("file")
-        .build());
-
-    // set path for imported symbols
-    options.addOption(Option.builder("path")
-        .desc("Sets the artifact path for imported symbols")
-        .argName("dirlist")
-        .hasArg()
-        .hasArgs()
-        .valueSeparator(' ')
         .build());
 
     return options;
