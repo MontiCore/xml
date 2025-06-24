@@ -194,6 +194,7 @@ shadowJar {
 jar.dependsOn shadowJar
 
 tasks.shadowJar.dependsOn generateLangEmbeddingFullXML
+tasks.javadoc.dependsOn generateLangEmbeddingFullXML
 
 /* ============================================================ */
 /* ======================= Publishing ========================= */
@@ -207,7 +208,6 @@ publishing {
             from components.java
             artifact sourcesJar
             artifact javadocJar
-            artifact shadowJar
         }
     }
     repositories.maven {
