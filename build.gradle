@@ -8,8 +8,7 @@ plugins {
     id "java"
     id "monticore" version "$mc_version"
     id "maven-publish"
-    id "org.unbroken-dome.test-sets" version "3.0.1"
-    id "com.github.johnrengelman.shadow" version "4.0.4"
+    id "com.github.johnrengelman.shadow" version "$shadow_plugin_version"
 }
 
 /* ============================================================ */
@@ -193,6 +192,8 @@ shadowJar {
     archiveClassifier = "mc-tool"
 }
 jar.dependsOn shadowJar
+
+tasks.shadowJar.dependsOn generateLangEmbeddingFullXML
 
 /* ============================================================ */
 /* ======================= Publishing ========================= */
