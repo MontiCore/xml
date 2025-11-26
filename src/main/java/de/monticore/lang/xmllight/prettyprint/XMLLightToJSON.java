@@ -19,7 +19,7 @@ import de.monticore.symboltable.ISymbol;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -154,7 +154,7 @@ public class XMLLightToJSON extends IndentPrinter implements XMLLightVisitor2, X
   private List<Integer> groupAttributesToArray(ASTXMLNode node) {
     List<Integer> substituted = new ArrayList<>();
     //First traversal: index content and identify duplicates
-    Map<String, List<Integer>> content = new HashMap<>();
+    Map<String, List<Integer>> content = new LinkedHashMap<>();
     for (int i = 0; i < node.getXMLContentList().size(); i++) {
       if (node.getXMLContent(i) instanceof ASTXMLNode) {
         ASTXMLNode n = (ASTXMLNode) node.getXMLContent(i);
