@@ -34,7 +34,7 @@ public class XMLLightToolTest {
   @Test
   public void testParseAndPrint() throws IOException {
     String[] args = { "-i", INPUT, "-pp", PRINT };
-    XMLLightTool.main(args);
+    new XMLLightTool().run(args);
 
     // check if printed XML is valid
     XMLLightParser parser = new XMLLightParser();
@@ -50,12 +50,12 @@ public class XMLLightToolTest {
   @Test
   public void testSyntaxObjects() throws IOException {
     String[] args = { "-i", INPUT, "-so", OD };
-    XMLLightTool.main(args);
+    new XMLLightTool().run(args);
   }
 
   @Test
   public void testSymbolTable() throws IOException {
     String[] args = { "-i", INPUT, "-s" };
-    XMLLightTool.main(args);
+    new XMLLightTool().run(args);
   }
 }
