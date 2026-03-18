@@ -8,7 +8,7 @@ plugins {
     id "java"
     id "de.monticore.generator" version "$mc_version"
     id "maven-publish"
-    id "com.github.johnrengelman.shadow" version "$shadow_plugin_version"
+    id "com.gradleup.shadow" version "$shadow_plugin_version"
 }
 
 /* ============================================================ */
@@ -17,20 +17,8 @@ plugins {
 
 group = "de.monticore.lang"
 description = "XML"
-sourceCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_21
 
-/* ============================================================ */
-/* ========================= Versions ========================= */
-/* ============================================================ */
-
-ext {
-    junit_version = "4.13.1"
-    findbugs_version = "3.0.0"
-    assertj_version = "3.7.0"
-    commons_cli_version = "1.4"
-    logback_version = "1.1.2"
-    commons_lang_version = "3.0"
-}
 
 /* ============================================================ */
 /* ======================= Configuration ====================== */
@@ -39,7 +27,7 @@ ext {
 buildDir = file("$projectDir/target")
 
 test {
-    useJUnit()
+    useJUnitPlatform()
 }
 
 /* ============================================================ */
@@ -65,7 +53,12 @@ dependencies {
     implementation "org.assertj:assertj-core:$assertj_version"
     implementation "commons-cli:commons-cli:$commons_cli_version"
     implementation "com.google.code.findbugs:jsr305:$findbugs_version"
-    testImplementation "junit:junit:$junit_version"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$junit_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:$junit_version"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher:$junit_version"
+
     testImplementation "ch.qos.logback:logback-classic:$logback_version"
 }
 
